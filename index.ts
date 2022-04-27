@@ -1,82 +1,38 @@
 import DiscordJS, { Intents, Message, Options } from 'discord.js'
-import dotenv from "dotenv"
-dotenv.config()
+import WOKCmd from 'wokcommands'
+import path from 'path'
+import mongoose from 'mongoose'
+import 'dotenv/config'
+
+import testSchema from './test-schema'
+
+const guildID = '968877307638997032'
 
 const client = new DiscordJS.Client({
     intents: [
         Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MESSAGES
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     ]
 })
 
-client.on('ready', () => {
-    console.log(`Logged in as `+client.user?.tag)
+client.on('ready', async () => {
 
-    const guildID = '968877307638997032'
-    const guild = client.guilds.cache.get(guildID)
-    let commands
+    console.log(`Logged in as ` + client.user?.tag)
 
-    if (guild) {
-        commands = guild.commands
-    } else {
-        commands = client.application?.commands
-    }
+    await mongoose.connect(
+        process.env.MONGO_URI || '',
+        {
+            keepAlive: true
+        }
+    )
 
-    commands?.create({
-        name: 'ping',
-        description: 'replies with pong'
-    })
-
-
-    commands?.create({
-        name: 'add',
-        description: 'adds things :)',
-        options: [
-            {
-            name: '1th',
-            description: 'the first',
-            required: true,
-            type: DiscordJS.Constants.ApplicationCommandOptionTypes.STRING
-           },
-           {
-           name: '2th',
-           description: 'the seconth',
-           required: true,
-           type: DiscordJS.Constants.ApplicationCommandOptionTypes.INTEGER
-          }
-        ]
+    new WOKCmd(client, {
+        commandsDir: path.join(__dirname, 'commands'),
+        typeScript: true, 
+        testServers: guildID,
+        mongoUri: process.env.MONGO_URI
     })
 })
-
-client.on('interactionCreate', async (interaction) => {
-    if (!interaction.isCommand()){
-        return
-    }
-
-    const {commandName, options} = interaction
-
-    if (commandName === 'ping'){
-        interaction.reply({
-            content: 'pong',
-        })
-    } else if (commandName === 'add'){
-        const text = options.getString('1th')!
-        const numb = options.getInteger('2th')!
-
-        interaction.reply({
-            content: `Lmao no this is multipay : ${text + numb}`
-        })
-    }
-})
-
-
-// client.on('messageCreate', (message) => {
-//     if(message.content === 'ping') {
-//         message.reply({
-//             content:'pong',
-//         })
-//     }
-// })
-
 
 client.login(process.env.TOKEN)
