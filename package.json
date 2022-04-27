@@ -1,0 +1,24 @@
+{
+  "name": "waffbot",
+  "version": "1.0.0",
+  "description": "Bot make me :)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theendercore/WaffBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theendercore/WaffBot/issues"
+  },
+  "homepage": "https://github.com/theendercore/WaffBot#readme",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
+  }
+}
