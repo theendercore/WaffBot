@@ -7,6 +7,8 @@ export default (client: Client, instance: WOKCommands) => {
 
   client.on('guildMemberAdd', (member) => {
     const { guild } = member
+    console.log("player join")
+
 
     // Get the channel named "welcome"
     const channel = guild.channels.cache.find(
