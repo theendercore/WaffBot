@@ -1,30 +1,29 @@
-import { Client, TextChannel, MessageEmbed } from 'discord.js'
+import { Client, TextChannel, } from 'discord.js'
 import WOKCommands from 'wokcommands'
 
 export default (client: Client, instance: WOKCommands) => {
-    client.on('guildMemberAdd', (member) => {
-        console.log('[WafBot] '+member+' joined!')
+    client.on('guildMemberAdd',async (member) => {
+        console.log('[WafBot] ' + member + ' joined!')
         const { guild } = member
 
         const channel = guild.channels.cache.find(
             (channel) => channel.id === '969277045404229652'
         ) as TextChannel
-        if (!channel) {
-            return
-        }
+        if (!channel) return
 
         const welcomeEmbed = {
-            color: 0x1256ff,
+            color: 0xdfa32c,
             title: `Hello ${member.displayName}!`,
-            description: 'Hope you have a fun time :)',
+            description: `Hope you have a fun time :)\nChek your DM's!`,
             thumbnail: {
                 url: member.displayAvatarURL(),
             },
-            timestamp: new Date(),
         };
 
-        console.log('[WafBot]' + member.displayAvatarURL());
+        console.log('[WafBot]' + member.id);
         channel.send({ embeds: [welcomeEmbed] });
+
+        member.send(`> **Welcome to ${guild}**\nTo get in give me ur Mine Craft acount`);
 
     })
 }
