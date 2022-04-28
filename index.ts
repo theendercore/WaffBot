@@ -4,7 +4,7 @@ import path from 'path'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 
-import testSchema from './test-schema'
+// import testSchema from './test-schema'
 
 const guildID = '968877307638997032'
 
@@ -29,6 +29,7 @@ client.on('ready', async () => {
 
     new WOKCmd(client, {
         commandsDir: path.join(__dirname, 'commands'),
+        featuresDir: path.join(__dirname, 'features'),
         typeScript: true, 
         testServers: guildID,
         mongoUri: process.env.MONGO_URI
