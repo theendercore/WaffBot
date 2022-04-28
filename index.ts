@@ -1,5 +1,5 @@
 import DiscordJS, { Intents, Message, Options } from 'discord.js'
-import WOKCmd from 'wokcommands'
+import WOKCommands from 'wokcommands'
 import path from 'path'
 import mongoose from 'mongoose'
 import 'dotenv/config'
@@ -13,27 +13,26 @@ const client = new DiscordJS.Client({
         Intents.FLAGS.GUILDS,
         Intents.FLAGS.GUILD_MESSAGES,
         Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+        Intents.FLAGS.GUILD_MEMBERS,
     ]
 })
 
 client.on('ready', async () => {
 
-    console.log(`Logged in as ` + client.user?.tag)
+    log(`Logged in as ` + client.user?.tag)
 
-    await mongoose.connect(
-        process.env.MONGO_URI || '',
-        {
-            keepAlive: true
-        }
-    )
-
-    new WOKCmd(client, {
+    new WOKCommands(client, {
         commandsDir: path.join(__dirname, 'commands'),
         featuresDir: path.join(__dirname, 'features'),
-        typeScript: true, 
+        typeScript: true,
         testServers: guildID,
         mongoUri: process.env.MONGO_URI
     })
+    log(`Setup Done!`)
 })
+
+function log(s: string) {
+    console.log('[WafBot] ' + s);
+}
 
 client.login(process.env.TOKEN)
