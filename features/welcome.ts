@@ -3,7 +3,7 @@ import WOKCommands from 'wokcommands'
 
 export default (client: Client, instance: WOKCommands) => {
     client.on('guildMemberAdd',async (member) => {
-        console.log('[WafBot] ' + member + ' joined!')
+        console.log('[WafBot] ' + member.displayName + ' joined!')
         const { guild } = member
 
         const channel = guild.channels.cache.find(
@@ -20,7 +20,6 @@ export default (client: Client, instance: WOKCommands) => {
             },
         };
 
-        console.log('[WafBot]' + member.id);
         channel.send({ embeds: [welcomeEmbed] });
 
         member.send(`> **Welcome to ${guild}**\nTo get in give me ur Mine Craft acount`);
