@@ -6,26 +6,22 @@ export default {
   category: 'Admin',
   description: 'Realoads recation roles', // Required for slash commands
 
-  slash: true,
+  slash: false,
   testOnly: true,
 
   permissions: ['ADMINISTRATOR'],
 
-  callback: ({ message, interaction }) => {
-    log(message+' ')
+  callback: ({ message, channel, guild }) => {
+    let gg = channel.id
+    let cc = guild.id
 
-    if (message) {
-      message.reply({
-        content: "reply"
-      })
-      return
-    }
+    log("cock "+gg)
 
     for (let i = 0; i < Object.keys(react_roles).length; i++) {
       log(react_roles[i].name + " " + react_roles[i].emoji)
 
       if (react_roles[i].id != "") { break; }
-      // log(gg.name)
+      // log(gg.username)
       // gg.roles.create({
       //     name: react_roles[i].name,
       //     color: react_roles[i].color,
@@ -33,5 +29,7 @@ export default {
       // .then(console.log)
       // .catch(console.error);
     }
+
+    return ":)"
   },
 } as ICommand

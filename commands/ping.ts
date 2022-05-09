@@ -1,14 +1,14 @@
 import { ICommand } from 'wokcommands'
 
 export default {
-  category: 'Teting',
-  description: 'replys', // Required for slash commands
+  category: 'Testing',
+  description: 'replys with hello', // Required for slash commands
   
   slash: true,
   testOnly: true,
   
   callback: ({}) => {
-    const reply = 'Cock!'
+    const reply = 'Hello!'
     return reply
   },
 } as ICommand
