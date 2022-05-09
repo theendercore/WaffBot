@@ -8,7 +8,7 @@ export default {
   testOnly: true,
   
   callback: ({}) => {
-    const reply = 'Pong!'
+    const reply = 'Cock!'
     return reply
   },
 } as ICommand

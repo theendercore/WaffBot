@@ -10,10 +10,13 @@ const schema = new mongoose.Schema({
     minecraftUUID: requiredString,
     verifyPWD: requiredString,
     pendingUUID: requiredString,
-    verified: {
-        type: Boolean,
-        required: true
-    }
+    verifiedSerevrs: [{ 
+        serverID: requiredString,
+        verified: {
+            type: Boolean,
+            required: true
+        }
+        }]
 })
 
 export default mongoose.model('verify', schema)
