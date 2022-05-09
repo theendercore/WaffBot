@@ -3,7 +3,7 @@ import WOKCommands from 'wokcommands'
 import path from 'path'
 import mongoose from 'mongoose'
 import 'dotenv/config'
-
+import log from './common/log'
 // import testSchema from './test-schema'
 
 const guildID = '968877307638997032'
@@ -32,8 +32,6 @@ client.on('ready', async () => {
     log(`Setup Done!`)
 })
 
-function log(s: string) {
-    console.log('[WafBot] ' + s);
-}
+
 
 client.login(process.env.TOKEN)
