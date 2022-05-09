@@ -1,20 +1,14 @@
 [
     {
-        "id":"",
-        "name":"pp",
+        "id":"973272154013564978",
         "emoji":"😀",
-        "color":"x0ffffff"
+        "category":"",
+        "remove":true
     },
     {
-        "id":"",
-        "name":"cock",
+        "id":"973272202369699920",
         "emoji":"🥸",
-        "color":"x0408eca"
-    },
-    {
-        "id":"973212540190486538",
-        "name":"V",
-        "emoji":"",
-        "color":"x0629ada"
+        "category":"",
+        "remove":false
     }
 ]

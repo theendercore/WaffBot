@@ -12,22 +12,27 @@ export default {
   permissions: ['ADMINISTRATOR'],
 
   callback: ({ message, channel, guild }) => {
-    let gg = channel.id
-    let cc = guild.id
-
-    log("cock "+gg)
+    if (guild == null) return "server only"
 
     for (let i = 0; i < Object.keys(react_roles).length; i++) {
       log(react_roles[i].name + " " + react_roles[i].emoji)
 
-      if (react_roles[i].id != "") { break; }
-      // log(gg.username)
-      // gg.roles.create({
-      //     name: react_roles[i].name,
-      //     color: react_roles[i].color,
-      // })
-      // .then(console.log)
-      // .catch(console.error);
+      if(react_roles[i].delete){
+        log("remove roles")
+        // let del = guild.roles.cache.find(rol => rol.name == react_roles[i].name)
+        // if (del==null){return "oh no"}
+        // guild.roles.delete(del)
+      }else if (react_roles[i].id == "") {
+        log("add roles")
+        //   guild.roles.create({
+        //       name: react_roles[i].name,
+        //       color: react_roles[i].color,
+        //   })
+        //   .then(console.log)
+        //   .catch(console.error);
+      }
+
+      log("finish loop")
     }
 
     return ":)"
