@@ -1,8 +1,8 @@
 import { ICommand } from 'wokcommands'
 
 export default {
-  category: 'Testing',
-  description: 'Replies with cock', // Required for slash commands
+  category: 'Teting',
+  description: 'replys', // Required for slash commands
   
   slash: true,
   testOnly: true,

@@ -7,7 +7,6 @@ import log from './common/log'
 // import testSchema from './test-schema'
 
 const guildID = '968877307638997032'
-
 const client = new DiscordJS.Client({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -18,8 +17,10 @@ const client = new DiscordJS.Client({
     ]
 })
 
+
 client.on('ready', async () => {
 
+    
     log(`Logged in as ` + client.user?.tag)
 
     new WOKCommands(client, {

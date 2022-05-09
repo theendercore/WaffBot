@@ -1,0 +1,1 @@
+export let react_roles = require("../data/roles.json")
