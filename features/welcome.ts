@@ -2,10 +2,14 @@ import { Client, TextChannel, } from 'discord.js'
 import WOKCommands from 'wokcommands'
 import log from '../common/log'
 
+
+let welcomeData = {}
+
 export default (client: Client, instance: WOKCommands) => {
     client.on('guildMemberAdd',async (member) => {
         log(member.displayName + ' joined!')
         const { guild } = member
+
 
         const channel = guild.channels.cache.find(
             (channel) => channel.id === '969277045404229652'
@@ -25,6 +29,9 @@ export default (client: Client, instance: WOKCommands) => {
         log(typeof(member))
         member.send(`> **Welcome to ${guild}**\nTo get in give me ur Mine Craft acount`);
 
+
+
+        let verifyRole = guild.roles.cache.find(x => x.id === '973212540190486538')
     })
 }
 

@@ -8,8 +8,6 @@ const requiredString = {
 const schema = new mongoose.Schema({
     userID: requiredString,
     minecraftUUID: requiredString,
-    verifyPWD: requiredString,
-    pendingUUID: requiredString,
     verifiedSerevrs: [{ 
         serverID: requiredString,
         verified: {
