@@ -1,9 +1,10 @@
 import { Client, TextChannel, } from 'discord.js'
 import WOKCommands from 'wokcommands'
+import log from '../common/log'
 
 export default (client: Client, instance: WOKCommands) => {
     client.on('guildMemberAdd',async (member) => {
-        console.log('[WafBot] ' + member.displayName + ' joined!')
+        log(member.displayName + ' joined!')
         const { guild } = member
 
         const channel = guild.channels.cache.find(
@@ -21,7 +22,7 @@ export default (client: Client, instance: WOKCommands) => {
         };
 
         channel.send({ embeds: [welcomeEmbed] });
-
+        log(typeof(member))
         member.send(`> **Welcome to ${guild}**\nTo get in give me ur Mine Craft acount`);
 
     })
