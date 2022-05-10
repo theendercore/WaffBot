@@ -6,14 +6,11 @@ const requiredString = {
 }
 
 const schema = new mongoose.Schema({
-    serverID: {
-        type: String,
-        required: true
-    },
+    _id: requiredString,
     roleList: [{ 
-        role: {
             id: requiredString,
             emoji: requiredString,
+<<<<<<< HEAD:models/react_roles.ts
 <<<<<<< HEAD:models/react_roles.ts
             cataegory: requiredString,
             remove: {
@@ -27,9 +24,10 @@ const schema = new mongoose.Schema({
         }
         }]
 =======
+=======
+>>>>>>> 68cf080 (fixed my boo boos):models/ReactRolesModdel.ts
             cataegory: String
 }]
->>>>>>> 12b1a91 (finished reaload roles comand)
 })
 
 export default mongoose.model('verify', schema)
