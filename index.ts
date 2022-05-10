@@ -22,14 +22,7 @@ const client = new DiscordJS.Client({
 client.on("ready", async () => {
   console.log("Waffles are better!");
 
-<<<<<<< HEAD
-client.on('ready', async () => {
-
-    
-    log(`Logged in as ` + client.user?.tag)
-=======
   log(`Logged in as ` + client.user?.tag);
->>>>>>> 68cf080 (fixed my boo boos)
 
   new WOKCommands(client, {
     commandsDir: path.join(__dirname, "commands"),
