@@ -37,25 +37,8 @@ client.on("ready", async () => {
     _id: guildID,
     "roleList.id": "5"
   }, {_id:0,"roleList.emoji":1});
-  // x.toObject
   log(x||"error");
 
-  //   await ReactRolesModdel.
-  //   await new ReactRolesModdel({
-  //     _id:guildID,
-  //     roleList: [
-  //         {
-  //           id: "roleID",
-  //           emoji: "y",
-  //           cataegory: "u",
-  //         },
-  //         {
-  //           id: '00121',
-  //           emoji: "x",
-  //           cataegory: "u",
-  //         }
-  //     ],
-  //   }).save();
 });
 
 client.login(process.env.TOKEN);
