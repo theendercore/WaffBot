@@ -7,6 +7,10 @@ const requiredString = {
 
 const schema = new mongoose.Schema({
     _id: requiredString,
+    reactRoleChannel:{
+        id: requiredString,
+        name: requiredString
+    },
     roleList: [{ 
             id: requiredString,
             emoji: requiredString,
