@@ -1,8 +1,13 @@
 import { Role } from "discord.js";
 import { ICommand } from "wokcommands";
 import log, { logCantDel } from "../common/log";
-import { react_roles } from "../common/vars";
 import ReactRolesModdel from "../models/ReactRolesModdel";
+import fs from "fs";
+import path from "path";
+
+/*
+  RELOAD REACT ROLES
+*/
 
 export default {
   category: "Admin",
@@ -15,12 +20,21 @@ export default {
 
   callback: async ({ message, channel, guild }) => {
     if (guild == null) return "server only";
-    if (react_roles == null) return "no rolles to add / remove";
-    let entry = await ReactRolesModdel.findById(guild.id);
-    if (entry == null) {
-      await ReactRolesModdel.create({_id:guild.id})
-      log("New Discord server connected id : " + guild.id)
+
+    let react_roles = null;
+
+    try {
+      react_roles = require("../data/roles.json");
+    } catch {
+      log("No rolles to add / remove" + react_roles);
     }
+    if (react_roles == null) return "no rolles to add / remove";
+
+    if ((await ReactRolesModdel.findById(guild.id)) == null) {
+      await ReactRolesModdel.create({ _id: guild.id });
+      log("New Discord server connected id : " + guild.id);
+    }
+    
     for (let i = 0; i < Object.keys(react_roles).length; i++) {
       if (react_roles[i].remove) {
         log("Try Remove Role : " + react_roles[i].emoji);
@@ -69,20 +83,18 @@ export default {
 
       log("Processed Role : " + react_roles[i].emoji);
     }
+    
+    fs.unlink("data/roles.json", (err) => {
+      if (err) {
+        log(err + "");
+      } else {
+        log("Old roles File deleted");
+      }
+    });
 
     channel.send("Working").then((sentMessage) => {
-      setTimeout(
-        () =>
-          sentMessage
-            .delete()
-            .catch((err) => logCantDel()),
-        1000
-      );
-      setTimeout(
-        () =>
-          message.delete().catch((err) => logCantDel()),
-        1000
-      );
+      setTimeout(() => sentMessage.delete().catch((err) => logCantDel()), 1000);
+      setTimeout(() => message.delete().catch((err) => logCantDel()), 1000);
       return;
     });
   },

@@ -34,8 +34,7 @@ client.on("ready", async () => {
   log(`Setup Done!`);
 
   let x = await ReactRolesModdel.findOne({
-    _id: guildID,
-    "roleList.id": "5"
+    _id: guildID
   }, {_id:0,"roleList.emoji":1});
   log(x||"error");
 
