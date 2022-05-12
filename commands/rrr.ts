@@ -6,7 +6,8 @@ import fs from "fs";
 import path from "path";
 
 /*
-  RELOAD REACT ROLES
+  RRR = RELOAD REACT ROLES
+  rrc = react roles channel
 */
 
 export default {
@@ -122,42 +123,38 @@ export default {
     }
 
     //-------------------Set up Roles Channel------------------
+    let EMOJIS = [];
+    let sentEmbed = "> **Hallo Roles pick pls**\n";
+
     let dbRoles = (
-      await ReactRolesModdel.findOne(
-        { _id: guild.id },
-        { _id: 0, "roleList": 1 }
-      )
+      await ReactRolesModdel.findOne({ _id: guild.id }, { _id: 0, roleList: 1 })
     ).roleList;
-    let rrc = (
+
+    let rrcInfo = (
       await ReactRolesModdel.findOne(
         { _id: guild.id },
         { _id: 0, reactRoleChannel: 1 }
       )
     ).reactRoleChannel;
-    let editmsg = " ";
-    // for (let l = 0; l < Object.keys(dbRoles).length; l++) {
-    //   editmsg += dbRoles[l].emoji + "  <@&"+dbRoles[l].id+">  -pp"+ "\n";
-    //   guild.channels.fetch(rrc.id).then((channel) => {
-    //     (channel as TextChannel).messages
-    //       .fetch(rrc.messageId)
-    //       .then(async (message) => {
-    //         await message.edit(editmsg);
-    //         await message.react('😀')
-    //       })
-    //       .catch((err)=>{log("oh no - "+err)});
-    //   });
-    // }
-    // guild.channels.fetch(rrc.id).then((channel) => {
-    //   (channel as TextChannel).messages
-    //     .fetch(rrc.messageId)
-    //     .then(async (message) => {
-    //       await message.react('😀')
-    //     })
-    //     .catch((err)=>{log("oh no - "+err)});
-    // });
-    // const channel = guild.channels.cache.filter(c => c.type === 'GUILD_TEXT').find(id => id = "");
-    // message.reply('Reacting with fruits!');
-		await message.react('🍎');
+
+    let rrcMSG = await (
+      (await guild.channels.fetch(rrcInfo.id)) as TextChannel
+    ).messages.fetch(rrcInfo.messageId);
+
+
+    for (let l = 0; l < Object.keys(dbRoles).length; l++) {
+      sentEmbed +=
+        dbRoles[l].emoji + "  <@&" + dbRoles[l].id + ">  - `role desc`" + "\n";
+      EMOJIS[l] = dbRoles[l].emoji;
+    }
+
+    try {
+      await rrcMSG.edit(sentEmbed);
+      await EMOJIS.forEach((emoji) => rrcMSG.react(emoji));
+    } catch {
+      sendDeleteMSG(message, channel, "Oh no");
+      return "";
+    }
 
     sendDeleteMSG(message, channel, "Done™️");
     return "";

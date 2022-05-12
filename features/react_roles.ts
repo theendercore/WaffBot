@@ -4,11 +4,8 @@ import log from '../common/log'
 
 export default (client: Client, instance: WOKCommands) => {
   client.on('messageReactionAdd', (reaction, user) => {
-    log(reaction.emoji.name + ' ' + reaction.emoji.identifier+ ' '+ reaction.me)
-    
-    reaction.remove()
-    
-
+    log(reaction.emoji.name + ' '+ reaction.me)
+    // reaction.remove()
   })
 }
 
