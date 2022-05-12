@@ -1,4 +1,10 @@
-import DiscordJS, { Intents, Message, Options, Role } from "discord.js";
+import DiscordJS, {
+  Intents,
+  Message,
+  Options,
+  Role,
+  TextChannel,
+} from "discord.js";
 import WOKCommands from "wokcommands";
 import path from "path";
 import mongoose from "mongoose";
@@ -31,13 +37,20 @@ client.on("ready", async () => {
     testServers: guildID,
     mongoUri: process.env.MONGO_URI,
   });
+
+  //Cache all the react chats
+  let dbRoles = await ReactRolesModdel.find();
+  dbRoles.forEach(async (serverInfo) => {
+    const inerGuild = await client.guilds.fetch(serverInfo._id);
+    const inerChannel = inerGuild.channels.cache.get(
+      serverInfo.reactRoleChannel.id
+    );
+    const inerMessage = await (inerChannel as TextChannel).messages.fetch(
+      serverInfo.reactRoleChannel.channelId
+    );
+  });
+
   log(`Setup Done!`);
-
-  let x = await ReactRolesModdel.findOne({
-    _id: guildID
-  }, {_id:0,"roleList.emoji":1});
-  log(x||"error");
-
 });
 
 client.login(process.env.TOKEN);

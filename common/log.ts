@@ -2,7 +2,7 @@ import { Client, Guild, Message, TextChannel } from "discord.js";
 
 const logChannel = "973197471515811880";
 
-export default function log(s: string) {
+export default function log(s: any) {
   console.log("[WafBot] " + s);
 }
 
