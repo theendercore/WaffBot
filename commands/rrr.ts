@@ -18,7 +18,7 @@ export default {
 
   permissions: ["ADMINISTRATOR"],
 
-  callback: async ({ message, channel, guild }) => {
+  callback: async ({ message, channel, guild, interaction }) => {
     /*
 -------------------Basic Setup-------------------
 */
@@ -28,20 +28,28 @@ export default {
     }
 
     let react_roles = null;
-
+    //-------------------Crete New Things-------------------
     if ((await ReactRolesModdel.findById(guild.id)) == null) {
-
-      guild.channels
+      log("New Discord server connected | id-" + guild.id);
+      let rrcID = "8";
+      let rrcMsgID = "8";
+      const rrc = await guild.channels
         .create("react-roles", { reason: "Get ur roles here" })
-        .then(console.log)
-        .catch(console.error);
-      let rrc = guild.channels.cache.get("react-roles");
-      log(rrc.id);
+        .then(async (result) => {
+          log("A new React Roles Channel has been created | id-" + result.id);
+          rrcID = result.id || "";
+          await (result as TextChannel)
+            .send({ content: "." })
+            .then((message) => {
+              log("Temp Message send | id-" + message.id);
+              rrcMsgID = message.id;
+            });
+        });
+
       await ReactRolesModdel.create({
         _id: guild.id,
-        "reactRoleChannel.id": rrc.id,
+        reactRoleChannel: { id: rrcID, messageId: rrcMsgID },
       });
-      log("New Discord server connected id : " + guild.id);
     }
 
     try {
@@ -51,8 +59,7 @@ export default {
     }
 
     if (react_roles == null) {
-      sendDeleteMSG(message, channel, "No rolles to add || remove");
-      return "";
+      sendDeleteReply(message, channel, "No rolles to add || remove");
     } else {
       //-------------------Loading In Roles-------------------
       for (let i = 0; i < Object.keys(react_roles).length; i++) {
@@ -112,12 +119,47 @@ export default {
           log("Old roles File deleted");
         }
       });
-
-      //-------------------Set up Roles Channel------------------
-
-      // const channel = guild.channels.cache.filter(c => c.type === 'GUILD_TEXT').find(id => id = "");
-
-      sendDeleteMSG(message, channel, "Done™️");
     }
+
+    //-------------------Set up Roles Channel------------------
+    let dbRoles = (
+      await ReactRolesModdel.findOne(
+        { _id: guild.id },
+        { _id: 0, "roleList": 1 }
+      )
+    ).roleList;
+    let rrc = (
+      await ReactRolesModdel.findOne(
+        { _id: guild.id },
+        { _id: 0, reactRoleChannel: 1 }
+      )
+    ).reactRoleChannel;
+    let editmsg = " ";
+    // for (let l = 0; l < Object.keys(dbRoles).length; l++) {
+    //   editmsg += dbRoles[l].emoji + "  <@&"+dbRoles[l].id+">  -pp"+ "\n";
+    //   guild.channels.fetch(rrc.id).then((channel) => {
+    //     (channel as TextChannel).messages
+    //       .fetch(rrc.messageId)
+    //       .then(async (message) => {
+    //         await message.edit(editmsg);
+    //         await message.react('😀')
+    //       })
+    //       .catch((err)=>{log("oh no - "+err)});
+    //   });
+    // }
+    // guild.channels.fetch(rrc.id).then((channel) => {
+    //   (channel as TextChannel).messages
+    //     .fetch(rrc.messageId)
+    //     .then(async (message) => {
+    //       await message.react('😀')
+    //     })
+    //     .catch((err)=>{log("oh no - "+err)});
+    // });
+    // const channel = guild.channels.cache.filter(c => c.type === 'GUILD_TEXT').find(id => id = "");
+    // message.reply('Reacting with fruits!');
+		await message.react('🍎');
+
+    sendDeleteMSG(message, channel, "Done™️");
+    return "";
   },
 } as ICommand;
