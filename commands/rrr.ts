@@ -26,11 +26,21 @@ export default {
       sendDeleteMSG(message, channel, "Only in Servers :)");
       return "";
     }
+
     let react_roles = null;
 
     if ((await ReactRolesModdel.findById(guild.id)) == null) {
-      // const channel = guild.channels.cache.filter(c => c.type === 'GUILD_TEXT').find(id => id = "");
-      await ReactRolesModdel.create({ _id: guild.id });
+
+      guild.channels
+        .create("react-roles", { reason: "Get ur roles here" })
+        .then(console.log)
+        .catch(console.error);
+      let rrc = guild.channels.cache.get("react-roles");
+      log(rrc.id);
+      await ReactRolesModdel.create({
+        _id: guild.id,
+        "reactRoleChannel.id": rrc.id,
+      });
       log("New Discord server connected id : " + guild.id);
     }
 
@@ -103,7 +113,11 @@ export default {
         }
       });
 
-      // sendDeleteMSG(message, channel, "Working™️");
+      //-------------------Set up Roles Channel------------------
+
+      // const channel = guild.channels.cache.filter(c => c.type === 'GUILD_TEXT').find(id => id = "");
+
+      sendDeleteMSG(message, channel, "Done™️");
     }
   },
 } as ICommand;

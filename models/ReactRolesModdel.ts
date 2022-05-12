@@ -9,7 +9,6 @@ const schema = new mongoose.Schema({
     _id: requiredString,
     reactRoleChannel:{
         id: requiredString,
-        name: requiredString,
         messageId: requiredString
     },
     roleList: [{ 
