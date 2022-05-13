@@ -12,4 +12,4 @@ const schema = new mongoose.Schema({
 
 })
 
-export default mongoose.model('TempPaswordModel', schema)
+export default mongoose.model('TempPasswordModel', schema)
