@@ -6,8 +6,8 @@ const requiredString = {
 }
 
 const schema = new mongoose.Schema({
-    userID: requiredString,
-    minecraftUUID: requiredString,
+    _id: requiredString,
+    minecraftUUID: String,
     verifiedSerevrs: [{ 
         serverID: requiredString,
         verified: {

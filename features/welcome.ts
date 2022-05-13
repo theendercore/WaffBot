@@ -2,6 +2,7 @@ import { Client, TextChannel, } from 'discord.js'
 import WOKCommands from 'wokcommands'
 import log from '../common/log'
 import uuid from 'uuid'
+import VerifyModel from '../models/VerifyModel'
 
 
 let welcomeData = {}
@@ -29,8 +30,18 @@ export default (client: Client, instance: WOKCommands) => {
         channel.send({ embeds: [welcomeEmbed] });
         member.send(`> **Welcome to ${guild}**\nTo get in give me ur Mincruft acount`);
         member.roles.add("974622107843559444")
-        var id = uuid.v4()
-        log(id)
+        let dbMember = await VerifyModel.findById(member.id);
+        if(dbMember == null){
+            VerifyModel.create({_id:member.id,verifiedSerevrs:[{serverID:member.guild.id, verified:false}]})
+            log("do code")
+        }
+
+
+
+
+
+
+        // var id = uuid.v4()
 
         // let verifyRole = guild.roles.cache.find(x => x.id === '973212540190486538')
     })
