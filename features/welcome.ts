@@ -10,7 +10,7 @@ export default (client: Client, instance: WOKCommands) => {
     client.on('guildMemberAdd',async (member) => {
         log(member.displayName + ' joined!')
         const { guild } = member
-
+        
 
         const channel = guild.channels.cache.find(
             (channel) => channel.id === '969277045404229652'
