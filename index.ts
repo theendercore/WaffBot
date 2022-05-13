@@ -50,7 +50,7 @@ client.on("ready", async () => {
     );
   });
 
-  log(`Setup Done! *`);
+  log(`Setup Done!`);
 });
 
 client.login(process.env.TOKEN);
