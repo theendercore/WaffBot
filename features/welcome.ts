@@ -29,23 +29,40 @@ export default (client: Client, instance: WOKCommands) => {
 
     channel.send({ embeds: [welcomeEmbed] });
     member.roles.add("974622107843559444");
-    let dbMember = await VerifyModel.findById(member.id);
+    let dbMember = (await VerifyModel.findById(member.id)).verifiedSerevrs;
     if (dbMember == null) {
-      VerifyModel.create({
+      await VerifyModel.create({
         _id: member.id,
         verifiedSerevrs: [{ serverID: member.guild.id, verified: false }],
       });
-      var pas = uuidv4();
-      log("do code : " + pas);
-      TempPasswordModel.create({ _id: member.id, password: pas });
+      let pas = uuidv4();
+      await TempPasswordModel.create({ _id: member.id, password: pas });
       member.send(
         `> **Welcome to ${guild}**` +
           `\nTo get in give me ur Mincruft acount` +
           `\nUse \`/verify ${pas}\` in the server \`${process.env.SERVER_IP}\``
       );
+      return;
     }
 
-    // let verifyRole = guild.roles.cache.find(x => x.id === '973212540190486538')
+    if (
+      !dbMember.find((server: any) => server.serverID == member.guild.id)
+        .verified
+    ) {
+      let pas = uuidv4();
+      await TempPasswordModel.updateOne(
+        { _id: member.id },
+        { $set: { password: pas } }
+      );
+      await member.send(
+        `> **Welcome to ${guild}**` +
+          `\nTo get in give me ur Mincruft acount` +
+          `\nUse \`/verify ${pas}\` in the server \`${process.env.SERVER_IP}\``
+      );
+      return;
+    }
+    member.roles.remove("974622107843559444");
+    member.roles.add("974650288780763166");
   });
 };
 

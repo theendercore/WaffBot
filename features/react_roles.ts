@@ -21,7 +21,14 @@ const config = {
 
 export { config };
 
-async function code(reaction: any, user: any, dbRoles: any, rrcInfo: any, client: Client, remove: boolean) {
+async function code(
+  reaction: any,
+  user: any,
+  dbRoles: any,
+  rrcInfo: any,
+  client: Client,
+  remove: boolean
+) {
   if (reaction.message.guildId == null) return;
 
   dbRoles = (
@@ -37,10 +44,9 @@ async function code(reaction: any, user: any, dbRoles: any, rrcInfo: any, client
       { _id: 0, reactRoleChannel: 1 }
     )
   ).reactRoleChannel;
-  log(reaction.emoji.name + " : reaction added");
   if (reaction.message.channelId != rrcInfo.id) return;
   if (reaction.message.id != rrcInfo.messageId) return;
-  if (user.id == "974290316532252696-974290318180618280") return;
+  if (user.id == "968876125516365874") return;
 
   await dbRoles.forEach(async (obj: any) => {
     if (obj.emoji == reaction.emoji.name) {
@@ -49,10 +55,10 @@ async function code(reaction: any, user: any, dbRoles: any, rrcInfo: any, client
       const role = await guild?.roles.fetch(obj.id);
       if (remove) {
         member?.roles.remove(role || "");
-        log("removed role - " + obj.emoji);
+        log("removed role - " + obj.emoji + " from - " + user.id);
       } else {
         member?.roles.add(role || "");
-        log("added role - " + obj.emoji);
+        log("added role - " + obj.emoji + " to - " + user.id);
       }
     }
   });
