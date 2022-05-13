@@ -1,7 +1,7 @@
 import { Channel, Guild, Role, TextChannel, Message, Client } from "discord.js";
 import { ICommand } from "wokcommands";
 import log, { logCantDel, sendDeleteMSG, sendDeleteReply } from "../common/log";
-import ReactRolesModdel from "../models/ReactRolesModdel";
+import ReactRolesModel from "../models/ReactRolesModel";
 import fs from "fs";
 import path from "path";
 
@@ -30,7 +30,7 @@ export default {
 
     let react_roles = null;
     //-------------------Crete New Things-------------------
-    if ((await ReactRolesModdel.findById(guild.id)) == null) {
+    if ((await ReactRolesModel.findById(guild.id)) == null) {
       log("New Discord server connected | id-" + guild.id);
       let rrcID = "8";
       let rrcMsgID = "8";
@@ -47,7 +47,7 @@ export default {
             });
         });
 
-      await ReactRolesModdel.create({
+      await ReactRolesModel.create({
         _id: guild.id,
         reactRoleChannel: { id: rrcID, messageId: rrcMsgID },
       });
@@ -67,7 +67,7 @@ export default {
         if (react_roles[i].remove) {
           log("Try Remove Role : " + react_roles[i].emoji);
 
-          await ReactRolesModdel.updateOne(
+          await ReactRolesModel.updateOne(
             { _id: guild.id },
             { $pull: { roleList: { id: react_roles[i].id } } }
           );
@@ -79,7 +79,7 @@ export default {
           let roleExists = false;
 
           let serchable = (
-            await ReactRolesModdel.findOne(
+            await ReactRolesModel.findOne(
               { _id: guild.id },
               { _id: 0, "roleList.id": 1 }
             )
@@ -93,7 +93,7 @@ export default {
             }
           }
           if (!roleExists) {
-            await ReactRolesModdel.updateOne(
+            await ReactRolesModel.updateOne(
               { _id: guild.id },
               {
                 $push: {
@@ -127,11 +127,11 @@ export default {
     let sentEmbed = "> **Hallo Roles pick pls**\n";
 
     let dbRoles = (
-      await ReactRolesModdel.findOne({ _id: guild.id }, { _id: 0, roleList: 1 })
+      await ReactRolesModel.findOne({ _id: guild.id }, { _id: 0, roleList: 1 })
     ).roleList;
 
     let rrcInfo = (
-      await ReactRolesModdel.findOne(
+      await ReactRolesModel.findOne(
         { _id: guild.id },
         { _id: 0, reactRoleChannel: 1 }
       )

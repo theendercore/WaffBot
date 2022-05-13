@@ -18,4 +18,4 @@ const schema = new mongoose.Schema({
 }]
 })
 
-export default mongoose.model('ReactRolesModdel', schema)
+export default mongoose.model('ReactRolesModel', schema)

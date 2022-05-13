@@ -17,4 +17,4 @@ const schema = new mongoose.Schema({
         }]
 })
 
-export default mongoose.model('verify', schema)
+export default mongoose.model('VerifyModel', schema)

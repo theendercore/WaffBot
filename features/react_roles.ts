@@ -1,7 +1,7 @@
 import { Client, Message, TextChannel } from "discord.js";
 import WOKCommands from "wokcommands";
 import log from "../common/log";
-import ReactRolesModdel from "../models/ReactRolesModdel";
+import ReactRolesModel from "../models/ReactRolesModel";
 
 export default async (client: Client, instance: WOKCommands) => {
   let dbRoles: any, rrcInfo: any;
@@ -25,14 +25,14 @@ async function code(reaction: any, user: any, dbRoles: any, rrcInfo: any, client
   if (reaction.message.guildId == null) return;
 
   dbRoles = (
-    await ReactRolesModdel.findOne(
+    await ReactRolesModel.findOne(
       { _id: reaction.message.guildId },
       { _id: 0, roleList: 1 }
     )
   ).roleList;
 
   rrcInfo = (
-    await ReactRolesModdel.findOne(
+    await ReactRolesModel.findOne(
       { _id: reaction.message.guildId },
       { _id: 0, reactRoleChannel: 1 }
     )

@@ -10,7 +10,7 @@ import path from "path";
 import mongoose from "mongoose";
 import "dotenv/config";
 import log from "./common/log";
-import ReactRolesModdel from "./models/ReactRolesModdel";
+import ReactRolesModel from "./models/ReactRolesModel";
 // import testSchema from './test-schema'
 
 const guildID = "968877307638997032";
@@ -39,7 +39,7 @@ client.on("ready", async () => {
   });
 
   //Cache all the react chats
-  let dbRoles = await ReactRolesModdel.find();
+  let dbRoles = await ReactRolesModel.find();
   dbRoles.forEach(async (serverInfo) => {
     const inerGuild = await client.guilds.fetch(serverInfo._id);
     const inerChannel = inerGuild.channels.cache.get(
