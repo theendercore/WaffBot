@@ -1,6 +1,7 @@
 import { Client, TextChannel, } from 'discord.js'
 import WOKCommands from 'wokcommands'
 import log from '../common/log'
+import uuid from 'uuid'
 
 
 let welcomeData = {}
@@ -26,12 +27,12 @@ export default (client: Client, instance: WOKCommands) => {
         };
 
         channel.send({ embeds: [welcomeEmbed] });
-        log(typeof(member))
-        member.send(`> **Welcome to ${guild}**\nTo get in give me ur Mine Craft acount`);
+        member.send(`> **Welcome to ${guild}**\nTo get in give me ur Mincruft acount`);
+        member.roles.add("974622107843559444")
+        var id = uuid.v4()
+        log(id)
 
-
-
-        let verifyRole = guild.roles.cache.find(x => x.id === '973212540190486538')
+        // let verifyRole = guild.roles.cache.find(x => x.id === '973212540190486538')
     })
 }
 
@@ -41,3 +42,5 @@ const config = {
 }
 
 export { config }
+
+

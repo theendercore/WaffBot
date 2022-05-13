@@ -23,6 +23,10 @@
     "dotenv": "^16.0.0",
     "mongoose": "^6.3.1",
     "path": "^0.12.7",
+    "uuid": "^8.3.2",
     "wokcommands": "^1.5.3"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.3.4"
   }
 }

@@ -43,7 +43,6 @@ async function code(reaction: any, user: any, dbRoles: any, rrcInfo: any, client
   if (user.id == "974290316532252696-974290318180618280") return;
 
   await dbRoles.forEach(async (obj: any) => {
-    // log("role - "+obj.emoji+"\nemoji - "+reaction.emoji.name)
     if (obj.emoji == reaction.emoji.name) {
       var guild = client.guilds.cache.get(reaction.message.guildId || "");
       const member = await guild?.members.fetch(user.id);
