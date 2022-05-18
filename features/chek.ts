@@ -13,6 +13,7 @@ export default async (client: Client) => {
       log("A member has verified id: " + member?.user.tag);
       member?.roles.remove("974622107843559444");
       member?.roles.add("974650288780763166");
+      message.delete()
     }
   });
 };
