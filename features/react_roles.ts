@@ -3,7 +3,7 @@ import WOKCommands from "wokcommands";
 import log from "../common/log";
 import ReactRolesModel from "../models/ReactRolesModel";
 
-export default async (client: Client, instance: WOKCommands) => {
+export default async (client: Client) => {
   let dbRoles: any, rrcInfo: any;
 
   client.on("messageReactionAdd", async (reaction, user) => {
@@ -15,8 +15,8 @@ export default async (client: Client, instance: WOKCommands) => {
   });
 };
 const config = {
-  displayName: "test",
-  dbName: "TEST",
+  displayName: "rr",
+  dbName: "RR",
 };
 
 export { config };

@@ -6,9 +6,7 @@ import VerifyModel from "../models/VerifyModel";
 import TempPasswordModel from "../models/TempPasswordModel";
 import "dotenv/config";
 
-let welcomeData = {};
-
-export default (client: Client, instance: WOKCommands) => {
+export default (client: Client) => {
   client.on("guildMemberAdd", async (member) => {
     log(member.displayName + " joined!");
     const { guild } = member;

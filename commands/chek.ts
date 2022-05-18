@@ -14,10 +14,10 @@ export default {
 
   permissions: ["ADMINISTRATOR"],
   callback: async ({ message, channel, args, client }) => {
-    if (message?.member?.id != "968876125516365874") {
-      sendDeleteMSG(message, channel, "Bot Only");
-      return " ";
-    }
+    // if (message?.member?.id != "976519000420925520") {
+    //   sendDeleteMSG(message, channel, "Bot Only");
+    //   return " ";
+    // }
     const serverID = args[0];
     const userID = args[1];
 
