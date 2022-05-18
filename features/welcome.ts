@@ -29,14 +29,18 @@ export default (client: Client, instance: WOKCommands) => {
 
     channel.send({ embeds: [welcomeEmbed] });
     member.roles.add("974622107843559444");
-    let dbMember = (await VerifyModel.findById(member.id)).verifiedSerevrs;
+    let dbMember = await VerifyModel.findById(member.id);
     if (dbMember == null) {
       await VerifyModel.create({
         _id: member.id,
         verifiedSerevrs: [{ serverID: member.guild.id, verified: false }],
       });
       let pas = uuidv4();
-      await TempPasswordModel.create({_id: member.guild.id, userID: member.id, password: pas });
+      await TempPasswordModel.create({
+        _id: member.guild.id,
+        userID: member.id,
+        password: pas,
+      });
       member.send(
         `> **Welcome to ${guild}**` +
           `\nTo get in give me ur Mincruft acount` +
@@ -44,7 +48,7 @@ export default (client: Client, instance: WOKCommands) => {
       );
       return;
     }
-
+    dbMember = dbMember.verifiedSerevrs;
     if (
       !dbMember.find((server: any) => server.serverID == member.guild.id)
         .verified
