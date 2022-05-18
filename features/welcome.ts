@@ -36,7 +36,7 @@ export default (client: Client, instance: WOKCommands) => {
         verifiedSerevrs: [{ serverID: member.guild.id, verified: false }],
       });
       let pas = uuidv4();
-      await TempPasswordModel.create({ _id: member.id, password: pas });
+      await TempPasswordModel.create({_id: member.guild.id, userID: member.id, password: pas });
       member.send(
         `> **Welcome to ${guild}**` +
           `\nTo get in give me ur Mincruft acount` +
@@ -51,7 +51,7 @@ export default (client: Client, instance: WOKCommands) => {
     ) {
       let pas = uuidv4();
       await TempPasswordModel.updateOne(
-        { _id: member.id },
+        { _id: member.guild.id },
         { $set: { password: pas } }
       );
       await member.send(
