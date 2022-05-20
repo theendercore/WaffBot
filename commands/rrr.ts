@@ -100,7 +100,8 @@ export default {
                   roleList: {
                     id: react_roles[i].id,
                     emoji: react_roles[i].emoji,
-                    category: react_roles[i].category,
+                    category: react_roles[i].category || "blank",
+                    description: react_roles[i].description || "basic tin",
                   },
                 },
               }
@@ -124,7 +125,7 @@ export default {
 
     //-------------------Set up Roles Channel------------------
     let EMOJIS = [];
-    let sentEmbed = "> **Hallo Roles pick pls**\n";
+    let sentEmbed = "> **|   React Roles  |**\n";
 
     let dbRoles = (
       await ReactRolesModel.findOne({ _id: guild.id }, { _id: 0, roleList: 1 })
@@ -135,7 +136,9 @@ export default {
         { _id: guild.id },
         { _id: 0, reactRoleChannel: 1 }
       )
-    ).reactRoleChannel;
+    ).reactRoleChannel.then((message: any) => {
+      log(message);
+    });
 
     let rrcMSG = await (
       (await guild.channels.fetch(rrcInfo.id)) as TextChannel
@@ -144,7 +147,9 @@ export default {
 
     for (let l = 0; l < Object.keys(dbRoles).length; l++) {
       sentEmbed +=
-        dbRoles[l].emoji + "  <@&" + dbRoles[l].id + ">  - `role desc`" + "\n";
+        dbRoles[l].emoji + "  <@&" + dbRoles[l].id + ">  - `"+dbRoles[l].description+"`" + "\n";
+      log(sentEmbed)
+      log(dbRoles[l].description)
       EMOJIS[l] = dbRoles[l].emoji;
     }
 

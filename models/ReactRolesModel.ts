@@ -14,7 +14,8 @@ const schema = new mongoose.Schema({
     roleList: [{ 
             id: requiredString,
             emoji: requiredString,
-            cataegory: String
+            cataegory: String,
+            description: String
 }]
 })
 
