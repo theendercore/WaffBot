@@ -100,14 +100,15 @@ export default {
                   roleList: {
                     id: react_roles[i].id,
                     emoji: react_roles[i].emoji,
-                    category: react_roles[i].category || "blank",
-                    description: react_roles[i].description || "basic tin",
+                    category: react_roles[i].category,
+                    description: react_roles[i].description,
                   },
                 },
               }
             );
             log("Added Role : " + react_roles[i].emoji);
           }
+          log(react_roles[i].category)
         }
 
         log("Processed Role : " + react_roles[i].emoji);
@@ -125,6 +126,7 @@ export default {
 
     //-------------------Set up Roles Channel------------------
     let EMOJIS = [];
+    let CATEGORYS = [];
     let sentEmbed = "> **|   React Roles  |**\n";
 
     let dbRoles = (
@@ -136,20 +138,19 @@ export default {
         { _id: guild.id },
         { _id: 0, reactRoleChannel: 1 }
       )
-    ).reactRoleChannel.then((message: any) => {
-      log(message);
-    });
+    ).reactRoleChannel
 
     let rrcMSG = await (
       (await guild.channels.fetch(rrcInfo.id)) as TextChannel
     ).messages.fetch(rrcInfo.messageId);
 
+    for (let l = 0; l < Object.keys(dbRoles).length; l++) {
+      CATEGORYS[l] = dbRoles[l].category;
+    }
 
     for (let l = 0; l < Object.keys(dbRoles).length; l++) {
       sentEmbed +=
-        dbRoles[l].emoji + "  <@&" + dbRoles[l].id + ">  - `"+dbRoles[l].description+"`" + "\n";
-      log(sentEmbed)
-      log(dbRoles[l].description)
+        dbRoles[l].emoji + "  <@&" + dbRoles[l].id + ">  - `"+dbRoles[l].description+"`" + " - " +dbRoles[l].category +"\n";
       EMOJIS[l] = dbRoles[l].emoji;
     }
 
