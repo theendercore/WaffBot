@@ -1,4 +1,14 @@
-import { Channel, Guild, Role, TextChannel, Message, Client } from "discord.js";
+import {
+  Channel,
+  Guild,
+  Role,
+  TextChannel,
+  Message,
+  Client,
+  Emoji,
+  MessageEmbed,
+  Collection,
+} from "discord.js";
 import { ICommand } from "wokcommands";
 import log, { logCantDel, sendDeleteMSG, sendDeleteReply } from "../common/log";
 import ReactRolesModel from "../models/ReactRolesModel";
@@ -12,7 +22,7 @@ import path from "path";
 
 export default {
   category: "Admin",
-  description: "Realoads recation roles", // Required for slash commands
+  description: "Realoads recation roles",
 
   slash: false,
   testOnly: true,
@@ -56,11 +66,11 @@ export default {
     try {
       react_roles = require("../data/roles.json");
     } catch {
-      log("No rolles to add / remove" + react_roles);
+      log("No rolles to add or remove" + react_roles);
     }
 
     if (react_roles == null) {
-      sendDeleteReply(message, channel, "No rolles to add || remove");
+      sendDeleteReply(message, channel, "No rolles to add or remove");
     } else {
       //-------------------Loading In Roles-------------------
       for (let i = 0; i < Object.keys(react_roles).length; i++) {
@@ -108,7 +118,7 @@ export default {
             );
             log("Added Role : " + react_roles[i].emoji);
           }
-          log(react_roles[i].category)
+          log(react_roles[i].category);
         }
 
         log("Processed Role : " + react_roles[i].emoji);
@@ -126,8 +136,14 @@ export default {
 
     //-------------------Set up Roles Channel------------------
     let EMOJIS = [];
-    let CATEGORYS = [];
-    let sentEmbed = "> **|   React Roles  |**\n";
+    let categorys: any = [];
+    let sentEmbed = " ";
+    const sendEmbed = [
+      new MessageEmbed()
+        .setColor(0xdfa32c)
+        .setTitle("React Roles")
+        .setDescription("Here you can get your roles by reacting :)"),
+    ];
 
     let dbRoles = (
       await ReactRolesModel.findOne({ _id: guild.id }, { _id: 0, roleList: 1 })
@@ -138,24 +154,45 @@ export default {
         { _id: guild.id },
         { _id: 0, reactRoleChannel: 1 }
       )
-    ).reactRoleChannel
+    ).reactRoleChannel;
 
     let rrcMSG = await (
       (await guild.channels.fetch(rrcInfo.id)) as TextChannel
     ).messages.fetch(rrcInfo.messageId);
 
     for (let l = 0; l < Object.keys(dbRoles).length; l++) {
-      CATEGORYS[l] = dbRoles[l].category;
+      EMOJIS[l] = dbRoles[l].emoji;
+      categorys[l] = dbRoles[l].category;
     }
 
-    for (let l = 0; l < Object.keys(dbRoles).length; l++) {
-      sentEmbed +=
-        dbRoles[l].emoji + "  <@&" + dbRoles[l].id + ">  - `"+dbRoles[l].description+"`" + " - " +dbRoles[l].category +"\n";
-      EMOJIS[l] = dbRoles[l].emoji;
-    }
+    let CATEGORYS = [...new Set(categorys)];
+
+    CATEGORYS.forEach((element) => {
+      const result = dbRoles.filter((obj: any) => obj.category === element);
+      let embed = new MessageEmbed().setColor(
+        `#${Math.floor(Math.random() * 16777215).toString(16)}`
+      );
+      if (element != undefined) {
+        embed.setTitle(element + "");
+        sentEmbed += "**" + element + "**\n";
+      }
+      let Desc: string = "";
+      result.forEach((obj: any) => {
+        const ROLE = message?.guild?.roles?.cache?.find(
+          (role) => role.id == obj.id
+        );
+        Desc +=
+          obj.emoji +
+          `  ${ROLE ? `${ROLE}` : "role not found big yaiks"}` +
+          " - `" +
+          obj.description +
+          "`\n";
+      });
+      sendEmbed.push(embed.setDescription(Desc));
+    });
 
     try {
-      await rrcMSG.edit(sentEmbed);
+      await rrcMSG.edit({ embeds: sendEmbed });
       await EMOJIS.forEach((emoji) => rrcMSG.react(emoji));
     } catch {
       sendDeleteMSG(message, channel, "Oh no");
@@ -163,6 +200,7 @@ export default {
     }
 
     sendDeleteMSG(message, channel, "Done™️");
+
     return "";
   },
 } as ICommand;
