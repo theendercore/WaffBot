@@ -62,4 +62,6 @@ export async function getVerify(
   }
   member.roles.remove(waitingVarifyRole);
   member.roles.add(varifyRole);
+  await member.send(
+    `**you have been virifed ! :)**` )
 }

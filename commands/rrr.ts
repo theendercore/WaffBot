@@ -1,14 +1,4 @@
-import {
-  Channel,
-  Guild,
-  Role,
-  TextChannel,
-  Message,
-  Client,
-  Emoji,
-  MessageEmbed,
-  Collection,
-} from "discord.js";
+import { TextChannel, MessageEmbed } from "discord.js";
 import { ICommand } from "wokcommands";
 import log, { logCantDel, sendDeleteMSG, sendDeleteReply } from "../common/log";
 import ReactRolesModel from "../models/ReactRolesModel";
