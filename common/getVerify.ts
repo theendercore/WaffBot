@@ -43,7 +43,7 @@ export async function getVerify(
   await member.send(`**you have been virifed ! :)**`);
 }
 
-async function tryDM(member, guild, pas, channel) {
+async function tryDM(member: GuildMember, guild: Guild, pas: string, channel: TextChannel) {
   try {
     await member.send(
       `> **Welcome to ${guild}**` +
