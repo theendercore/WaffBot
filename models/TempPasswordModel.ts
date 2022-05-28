@@ -6,7 +6,7 @@ const requiredString = {
 }
 
 const schema = new mongoose.Schema({
-    _id: requiredString,
+    serverID: requiredString,
     userID: requiredString,
     minecraftUUID: String,
     password: requiredString

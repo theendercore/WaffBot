@@ -19,7 +19,7 @@ export async function getVerify(
     });
     let pas = uuidv4();
     await TempPasswordModel.create({
-      _id: member.guild.id,
+      serverID: member.guild.id,
       userID: member.id,
       password: pas,
     });
@@ -32,7 +32,7 @@ export async function getVerify(
     } catch (e) {
       log(e);
       channel.send(
-        "Hey <@&" + member.id + ">. You need to enable bot dms to get verified!"
+        "Hey <@" + member.id + ">. You need to enable bot dms to get verified!"
       );
     }
     return;
@@ -43,7 +43,7 @@ export async function getVerify(
   ) {
     let pas = uuidv4();
     await TempPasswordModel.updateOne(
-      { _id: member.guild.id },
+      { serverID: member.guild.id, userID: member.id },
       { $set: { password: pas } }
     );
     try {
