@@ -51,11 +51,11 @@ async function tryDM(member: GuildMember, guild: Guild, pas: string, channel: Te
         `\nUse \`/verify ${pas}\` in the server \`${process.env.SERVER_IP}\``
     );
   } catch (e) {
-    log(e);
+    log(`${member.displayName} does not have DM's open`);
     channel.send(
       "Hey <@" +
         member.id +
-        '>. You need to enable allow "Direct messages from server members" to get verified!'
+        '>. You need to enable "Allow Direct Messages from Server Members" to get verified!'
     );
   }
 }

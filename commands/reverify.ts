@@ -28,7 +28,7 @@ export default {
   callback: async ({ message, channel, guild, interaction }) => {
 
     if(message?.member?.roles?.cache.get(varifyRole)){
-      sendDeleteMSG(message, channel, "You already has -_-");
+      sendDeleteMSG(message, channel, "You already are verified!");
       return
     }
     if (guild == null) {
