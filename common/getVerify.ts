@@ -23,18 +23,7 @@ export async function getVerify(
       userID: member.id,
       password: pas,
     });
-    try {
-      await member.send(
-        `> **Welcome to ${guild}**` +
-          `\nTo get in give me ur Mincruft acount` +
-          `\nUse \`/verify ${pas}\` in the server \`${process.env.SERVER_IP}\``
-      );
-    } catch (e) {
-      log(e);
-      channel.send(
-        "Hey <@" + member.id + ">. You need to enable bot dms to get verified!"
-      );
-    }
+    tryDM(member, guild, pas, channel);
     return;
   }
   dbMember = dbMember.verifiedSerevrs;
@@ -46,22 +35,27 @@ export async function getVerify(
       { serverID: member.guild.id, userID: member.id },
       { $set: { password: pas } }
     );
-    try {
-      await member.send(
-        `> **Welcome to ${guild}**` +
-          `\nTo get in give me ur Mincruft acount` +
-          `\nUse \`/verify ${pas}\` in the server \`${process.env.SERVER_IP}\``
-      );
-    } catch (e) {
-      log(e);
-      channel.send(
-        "Hey <@" + member.id + ">. You need to enable bot dms to get verified!"
-      );
-    }
+    tryDM(member, guild, pas, channel);
     return;
   }
   member.roles.remove(waitingVarifyRole);
   member.roles.add(varifyRole);
-  await member.send(
-    `**you have been virifed ! :)**` )
+  await member.send(`**you have been virifed ! :)**`);
+}
+
+async function tryDM(member, guild, pas, channel) {
+  try {
+    await member.send(
+      `> **Welcome to ${guild}**` +
+        `\nTo get in give me ur Mincruft acount` +
+        `\nUse \`/verify ${pas}\` in the server \`${process.env.SERVER_IP}\``
+    );
+  } catch (e) {
+    log(e);
+    channel.send(
+      "Hey <@" +
+        member.id +
+        '>. You need to enable allow "Direct messages from server members" to get verified!'
+    );
+  }
 }
