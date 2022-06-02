@@ -1,17 +1,11 @@
-import DiscordJS, {
-  Intents,
-  Message,
-  Options,
-  Role,
-  TextChannel,
-} from "discord.js";
+import DiscordJS, { Intents, TextChannel } from "discord.js";
 import WOKCommands from "wokcommands";
 import path from "path";
 import mongoose from "mongoose";
 import "dotenv/config";
-import log from "./common/log";
+import log, { logWarn } from "./common/log";
 import ReactRolesModel from "./models/ReactRolesModel";
-// import testSchema from './test-schema'
+import { verify } from "./common/vars";
 
 const guildID = "968877307638997032";
 
@@ -27,8 +21,6 @@ const client = new DiscordJS.Client({
 });
 
 client.on("ready", async () => {
-  console.log("Waffles are better!");
-
   log(`Logged in as ` + client.user?.tag);
 
   new WOKCommands(client, {

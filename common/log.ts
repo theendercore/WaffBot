@@ -6,6 +6,10 @@ export default function log(s: any) {
   console.log("[WafBot] " + s);
 }
 
+export function logWarn(s: any) {
+  console.warn("[WafBot] " + s);
+}
+
 export function logCantDel() {
   console.log("[WafBot] Could not delete the message");
 }
