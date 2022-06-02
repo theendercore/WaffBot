@@ -6,6 +6,7 @@ import "dotenv/config";
 import log, { logWarn } from "./common/log";
 import ReactRolesModel from "./models/ReactRolesModel";
 import { verify } from "./common/vars";
+import ServerSettingsModel from "./models/ServerSettingsModel";
 
 const guildID = "968877307638997032";
 
@@ -32,8 +33,19 @@ client.on("ready", async () => {
   });
 
   //Cache all the react chats
-  let dbRoles = await ReactRolesModel.find();
-  dbRoles.forEach(async (serverInfo) => {
+  let servers = (await ServerSettingsModel.find());
+  servers.forEach(async (si) => {
+    let serverInfo = si.reactRoles
+    const inerGuild = await client.guilds.fetch(serverInfo._id);
+    const inerChannel = inerGuild.channels.cache.get(
+      serverInfo.reactRoleChannel.id
+    );
+    const inerMessage = await (inerChannel as TextChannel).messages.fetch(
+      serverInfo.reactRoleChannel.channelId
+    );
+  });
+  let dbRolesO = await ReactRolesModel.find();
+  dbRolesO.forEach(async (serverInfo) => {
     const inerGuild = await client.guilds.fetch(serverInfo._id);
     const inerChannel = inerGuild.channels.cache.get(
       serverInfo.reactRoleChannel.id
