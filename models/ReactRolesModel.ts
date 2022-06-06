@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
-
-const requiredString = {
-  type: String,
-  required: true,
-};
+import { requiredString } from "./const";
 
 const schema = new mongoose.Schema({
   _id: requiredString,
