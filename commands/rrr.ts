@@ -15,7 +15,6 @@ export default {
   description: "Realoads recation roles",
 
   slash: false,
-  testOnly: true,
 
   permissions: ["ADMINISTRATOR"],
 

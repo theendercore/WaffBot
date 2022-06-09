@@ -9,7 +9,6 @@ export default {
   description: "ReVerifys the user",
 
   slash: false,
-  testOnly: true,
 
   callback: async ({ message, channel, guild }) => {
     if (message?.member?.roles?.cache.get(varifyRole)) {

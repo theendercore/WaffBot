@@ -6,11 +6,10 @@ import { getVerify } from "../common/getVerify";
 import ServerSettingsModel from "../models/ServerSettingsModel";
 
 export default {
-  category: "User",
-  description: "ReVerifys the user",
+  category: "Admin",
+  description: "Sets up the server for the bot",
 
   slash: false,
-  testOnly: true,
 
   permissions: ["ADMINISTRATOR"],
   callback: async ({ message, channel, guild }) => {
