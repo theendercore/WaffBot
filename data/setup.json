@@ -1,5 +1,6 @@
 {
     "joinChannel": "pp",
     "leaveChannel": "pp",
-    "logChannel": "pp"
+    "verification": false,
+    "reactRoles": false
 }

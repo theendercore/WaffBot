@@ -6,25 +6,25 @@ const schema = new mongoose.Schema({
   channels: {
     joinChannel: requiredString,
     leaveChannel: requiredString,
-    logChannel:requiredString,
+    logChannel: String,
   },
   verification: {
     useVerification: requiredboolean,
-    verifyRole: requiredString,
-    waitingVarifyRole: requiredString,
+    verifyRole: String,
+    waitingVarifyRole: String,
   },
   reactRoles: {
     useReactRoles: requiredboolean,
     reactRoleChannel: {
-      id: requiredString,
-      messageId: requiredString,
+      id: String,
+      messageId: String,
     },
     roleList: [
       {
-        id: requiredString,
-        emoji: requiredString,
+        id: String,
+        emoji: String,
         category: String,
-        description: requiredString,
+        description: String,
       },
     ],
   },
