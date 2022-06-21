@@ -36,7 +36,11 @@ export default {
 
     let react_roles: any = null;
     //-------------------Crete New Things-------------------
-    if ((await ReactRolesModel.findById(guild.id)) == null) {
+    if (
+      (await ServerSettingsModel.findById(guild.id)).channels
+        .reactRoleChannel == "{}"
+    ) {
+      // log("move the code to here");
       log("New Discord server connected | id-" + guild.id);
       let rrcID = "0";
       let rrcMsgID = "0";
@@ -55,18 +59,24 @@ export default {
 
       await ServerSettingsModel.updateOne(
         { _id: guild.id },
-        { $push: { "channels.reactRoleChannel": { id: rrcID, messageId: rrcMsgID } } }
+        {
+          $push: {
+            "channels.reactRoleChannel": { id: rrcID, messageId: rrcMsgID },
+          },
+        }
       );
-      await ReactRolesModel.create({
-        _id: guild.id,
-        reactRoleChannel: { id: rrcID, messageId: rrcMsgID },
-      });
     }
+    // if ((await ReactRolesModel.findById(guild.id)) == null) {
+    //   await ReactRolesModel.create({
+    //     _id: guild.id,
+    //     reactRoleChannel: { id: rrcID, messageId: rrcMsgID },
+    //   });
+    // }
 
     try {
       react_roles = require("../data/roles.json");
     } catch {
-      log("No rolles to add or remove" + react_roles);
+      log("ReactRoles file is not Prestint");
     }
 
     if (react_roles == null) {
@@ -75,39 +85,63 @@ export default {
       //-------------------Loading In Roles-------------------
       for (let i = 0; i < Object.keys(react_roles).length; i++) {
         if (react_roles[i].remove) {
-          log("Try Remove Role : " + react_roles[i].emoji);
-
-          await ReactRolesModel.updateOne(
+          //Remove Role Start
+          // await ReactRolesModel.updateOne(
+          //   { _id: guild.id },
+          //   { $pull: { roleList: { id: react_roles[i].id } } }
+          // );
+          await ServerSettingsModel.updateOne(
             { _id: guild.id },
-            { $pull: { roleList: { id: react_roles[i].id } } }
+            { $pull: { "reactRoles.roleList": { id: react_roles[i].id } } }
           );
 
-          log("Removed Role : " + react_roles[i].emoji);
+          //Removed Role
         } else {
-          log("Try Add Role : " + react_roles[i].emoji);
+          //Add Role Start
 
           let roleExists = false;
 
-          let serchable = (
-            await ReactRolesModel.findOne(
+          // let currentRoles = (
+          //   await ReactRolesModel.findOne(
+          //     { _id: guild.id },
+          //     { _id: 0, "roleList.id": 1 }
+          //   )
+          // ).roleList;
+
+          let currentRoles = (
+            await ServerSettingsModel.findOne(
               { _id: guild.id },
-              { _id: 0, "roleList.id": 1 }
+              { _id: 0, "reactRoles.roleList.id": 1 }
             )
           ).roleList;
-
-          for (let j = 0; j < Object.keys(serchable).length; j++) {
-            if (serchable[j].id == react_roles[i].id) {
-              roleExists = true;
-              log("Identical Role found!");
-              break;
+          if (!(currentRoles == null)) {
+            for (let j = 0; j < Object.keys(currentRoles).length; j++) {
+              if (currentRoles[j].id == react_roles[i].id) {
+                roleExists = true;
+                //Identical Role found
+                break;
+              }
             }
           }
           if (!roleExists) {
-            await ReactRolesModel.updateOne(
+            // await ReactRolesModel.updateOne(
+            //   { _id: guild.id },
+            //   {
+            //     $push: {
+            //       roleList: {
+            //         id: react_roles[i].id,
+            //         emoji: react_roles[i].emoji,
+            //         category: react_roles[i].category,
+            //         description: react_roles[i].description,
+            //       },
+            //     },
+            //   }
+            // );
+            await ServerSettingsModel.updateOne(
               { _id: guild.id },
               {
                 $push: {
-                  roleList: {
+                  "reactRoles.roleList": {
                     id: react_roles[i].id,
                     emoji: react_roles[i].emoji,
                     category: react_roles[i].category,
@@ -116,12 +150,10 @@ export default {
                 },
               }
             );
-            log("Added Role : " + react_roles[i].emoji);
+            // Aded role
           }
-          log(react_roles[i].category);
         }
-
-        log("Processed Role : " + react_roles[i].emoji);
+        //Processed role
       }
       sendDeleteReply(message, channel, "Processed Roles");
       //-------------------Deleting the roles.json------------------
@@ -153,16 +185,30 @@ export default {
         .setDescription("Here you can get your roles by reacting :)"),
     ];
 
+    // let dbRoles = (
+    //   await ReactRolesModel.findOne({ _id: guild.id }, { _id: 0, roleList: 1 })
+    // ).roleList;
+
     let dbRoles = (
-      await ReactRolesModel.findOne({ _id: guild.id }, { _id: 0, roleList: 1 })
-    ).roleList;
+      await ServerSettingsModel.findOne(
+        { _id: guild.id },
+        { _id: 0, reactRoles: 1 }
+      )
+    ).reactRoles.roleList;
+
+    // let rrcInfo = (
+    //   await ReactRolesModel.findOne(
+    //     { _id: guild.id },
+    //     { _id: 0, reactRoleChannel: 1 }
+    //   )
+    // ).reactRoleChannel;
 
     let rrcInfo = (
-      await ReactRolesModel.findOne(
+      await ServerSettingsModel.findOne(
         { _id: guild.id },
-        { _id: 0, reactRoleChannel: 1 }
+        { _id: 0, channels: 1 }
       )
-    ).reactRoleChannel;
+    ).channels.reactRoleChannel;
 
     let rrcMSG = await (
       (await guild.channels.fetch(rrcInfo.id)) as TextChannel
