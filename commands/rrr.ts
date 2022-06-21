@@ -1,7 +1,6 @@
 import { TextChannel, MessageEmbed } from "discord.js";
 import { ICommand } from "wokcommands";
 import log, { logCantDel, sendDeleteMSG, sendDeleteReply } from "../common/log";
-import ReactRolesModel from "../models/ReactRolesModel";
 import fs from "fs";
 import path from "path";
 import { use_rr } from "../common/vars";
@@ -60,18 +59,12 @@ export default {
       await ServerSettingsModel.updateOne(
         { _id: guild.id },
         {
-          $push: {
+          $set: {
             "channels.reactRoleChannel": { id: rrcID, messageId: rrcMsgID },
           },
         }
       );
     }
-    // if ((await ReactRolesModel.findById(guild.id)) == null) {
-    //   await ReactRolesModel.create({
-    //     _id: guild.id,
-    //     reactRoleChannel: { id: rrcID, messageId: rrcMsgID },
-    //   });
-    // }
 
     try {
       react_roles = require("../data/roles.json");
@@ -85,11 +78,6 @@ export default {
       //-------------------Loading In Roles-------------------
       for (let i = 0; i < Object.keys(react_roles).length; i++) {
         if (react_roles[i].remove) {
-          //Remove Role Start
-          // await ReactRolesModel.updateOne(
-          //   { _id: guild.id },
-          //   { $pull: { roleList: { id: react_roles[i].id } } }
-          // );
           await ServerSettingsModel.updateOne(
             { _id: guild.id },
             { $pull: { "reactRoles.roleList": { id: react_roles[i].id } } }
@@ -100,13 +88,6 @@ export default {
           //Add Role Start
 
           let roleExists = false;
-
-          // let currentRoles = (
-          //   await ReactRolesModel.findOne(
-          //     { _id: guild.id },
-          //     { _id: 0, "roleList.id": 1 }
-          //   )
-          // ).roleList;
 
           let currentRoles = (
             await ServerSettingsModel.findOne(
@@ -124,19 +105,6 @@ export default {
             }
           }
           if (!roleExists) {
-            // await ReactRolesModel.updateOne(
-            //   { _id: guild.id },
-            //   {
-            //     $push: {
-            //       roleList: {
-            //         id: react_roles[i].id,
-            //         emoji: react_roles[i].emoji,
-            //         category: react_roles[i].category,
-            //         description: react_roles[i].description,
-            //       },
-            //     },
-            //   }
-            // );
             await ServerSettingsModel.updateOne(
               { _id: guild.id },
               {
@@ -185,23 +153,12 @@ export default {
         .setDescription("Here you can get your roles by reacting :)"),
     ];
 
-    // let dbRoles = (
-    //   await ReactRolesModel.findOne({ _id: guild.id }, { _id: 0, roleList: 1 })
-    // ).roleList;
-
     let dbRoles = (
       await ServerSettingsModel.findOne(
         { _id: guild.id },
         { _id: 0, reactRoles: 1 }
       )
     ).reactRoles.roleList;
-
-    // let rrcInfo = (
-    //   await ReactRolesModel.findOne(
-    //     { _id: guild.id },
-    //     { _id: 0, reactRoleChannel: 1 }
-    //   )
-    // ).reactRoleChannel;
 
     let rrcInfo = (
       await ServerSettingsModel.findOne(

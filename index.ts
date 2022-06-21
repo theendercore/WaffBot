@@ -45,25 +45,14 @@ client.on("ready", async () => {
     );
 
     if (inerChannel === undefined) {
-      log("No RR pt 2");
+      log("This should not happend. React Roles Channel not found!");
       return;
     }
 
-    // const inerMessage = await (inerChannel as TextChannel).messages.fetch(
-    //   serverInfo.channels.reactRoleChannel.messageId
-    // );
+    const inerMessage = await (inerChannel as TextChannel).messages.fetch(
+      serverInfo.channels.reactRoleChannel.messageId
+    );
   });
-
-  // let dbRolesO = await ReactRolesModel.find();
-  // dbRolesO.forEach(async (serverInfo) => {
-  //   const inerGuild = await client.guilds.fetch(serverInfo._id);
-  //   const inerChannel = inerGuild.channels.cache.get(
-  //     serverInfo.reactRoleChannel.id
-  //   );
-  //   const inerMessage = await (inerChannel as TextChannel).messages.fetch(
-  //     serverInfo.reactRoleChannel.channelId
-  //   );
-  // });
 
   log(`Setup Done!`);
 });

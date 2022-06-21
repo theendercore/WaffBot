@@ -1,7 +1,7 @@
 import { Client, Message, TextChannel } from "discord.js";
 import WOKCommands from "wokcommands";
 import log from "../common/log";
-import ReactRolesModel from "../models/ReactRolesModel";
+import ServerSettingsModel from "../models/ServerSettingsModel";
 
 export default async (client: Client) => {
   let dbRoles: any, rrcInfo: any;
@@ -32,18 +32,19 @@ async function code(
   if (reaction.message.guildId == null) return;
 
   dbRoles = (
-    await ReactRolesModel.findOne(
+    await ServerSettingsModel.findOne(
       { _id: reaction.message.guildId },
-      { _id: 0, roleList: 1 }
+      { _id: 0, reactRoles: 1 }
     )
-  ).roleList;
+  ).reactRoles.roleList;
 
   rrcInfo = (
-    await ReactRolesModel.findOne(
+    await ServerSettingsModel.findOne(
       { _id: reaction.message.guildId },
-      { _id: 0, reactRoleChannel: 1 }
+      { _id: 0, channels: 1 }
     )
-  ).reactRoleChannel;
+  ).channels.reactRoleChannel;
+
   if (reaction.message.channelId != rrcInfo.id) return;
   if (reaction.message.id != rrcInfo.messageId) return;
   if (user.id == "968876125516365874") return;
@@ -55,10 +56,8 @@ async function code(
       const role = await guild?.roles.fetch(obj.id);
       if (remove) {
         member?.roles.remove(role || "");
-        log("removed role - " + obj.emoji + " from - " + user.id);
       } else {
         member?.roles.add(role || "");
-        log("added role - " + obj.emoji + " to - " + user.id);
       }
     }
   });
