@@ -4,6 +4,7 @@ import log, { logCantDel, sendDeleteMSG, sendDeleteReply } from "../common/log";
 import ReactRolesModel from "../models/ReactRolesModel";
 import fs from "fs";
 import path from "path";
+import { use_rr } from "../common/vars";
 
 /*
   RRR = RELOAD REACT ROLES
@@ -24,6 +25,11 @@ export default {
 */
     if (guild == null) {
       sendDeleteMSG(message, channel, "Only in Servers :)");
+      return "";
+    }
+
+    if (use_rr) {
+      sendDeleteMSG(message, channel, "React Roles are not Enabled!");
       return "";
     }
 
