@@ -5,6 +5,7 @@ import ReactRolesModel from "../models/ReactRolesModel";
 import fs from "fs";
 import path from "path";
 import { use_rr } from "../common/vars";
+import ServerSettingsModel from "../models/ServerSettingsModel";
 
 /*
   RRR = RELOAD REACT ROLES
@@ -37,10 +38,10 @@ export default {
     //-------------------Crete New Things-------------------
     if ((await ReactRolesModel.findById(guild.id)) == null) {
       log("New Discord server connected | id-" + guild.id);
-      let rrcID = "8";
-      let rrcMsgID = "8";
+      let rrcID = "0";
+      let rrcMsgID = "0";
       const rrc = await guild.channels
-        .create("react-roles", { reason: "Get ur roles here" })
+        .create("react-roles", { reason: "Get ur roles here!" })
         .then(async (result) => {
           log("A new React Roles Channel has been created | id-" + result.id);
           rrcID = result.id || "";
@@ -52,6 +53,10 @@ export default {
             });
         });
 
+      await ServerSettingsModel.updateOne(
+        { _id: guild.id },
+        { $push: { "channels.reactRoleChannel": { id: rrcID, messageId: rrcMsgID } } }
+      );
       await ReactRolesModel.create({
         _id: guild.id,
         reactRoleChannel: { id: rrcID, messageId: rrcMsgID },
@@ -120,13 +125,21 @@ export default {
       }
       sendDeleteReply(message, channel, "Processed Roles");
       //-------------------Deleting the roles.json------------------
-      fs.unlink("data/roles.json", (err) => {
-        if (err) {
-          log(err + "");
-        } else {
-          log("Old roles File deleted");
-        }
-      });
+      /*
+              AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+              AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+              AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+              AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+              AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      */
+
+      // fs.unlink("data/roles.json", (err) => {
+      //   if (err) {
+      //     log(err + "");
+      //   } else {
+      //     log("Old roles File deleted");
+      //   }
+      // });
     }
 
     //-------------------Set up Roles Channel------------------

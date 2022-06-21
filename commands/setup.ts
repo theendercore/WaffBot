@@ -32,11 +32,6 @@ export default {
       return "";
     }
 
-    if (setupFile === null) {
-      log("Empty Setup File!");
-      sendDeleteReply(message, channel, "Empty Setup File!");
-      return "";
-    }
     if (
       setupFile.joinChannel === null ||
       setupFile.leaveChannel === null ||
@@ -44,7 +39,7 @@ export default {
       setupFile.reactRoles === null
     ) {
       log("Setup File Incorect!");
-      sendDeleteReply(message, channel, "Setup File Incorect!");
+      sendDeleteReply(message, channel, "Setup File Incorect or Empty!");
       return "";
     }
 

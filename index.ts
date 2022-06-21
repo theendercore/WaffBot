@@ -36,13 +36,19 @@ client.on("ready", async () => {
   let servers = await ServerSettingsModel.find();
   servers.forEach(async (serverInfo: any) => {
     if (!serverInfo.reactRoles.useReactRoles) {
-      log("No RRR")
+      log("No RR");
       return;
     }
     const inerGuild = await client.guilds.fetch(serverInfo._id);
     const inerChannel = inerGuild.channels.cache.get(
       serverInfo.channels.reactRoleChannel.id
     );
+
+    if (inerChannel === undefined) {
+      log("No RR pt 2");
+      return;
+    }
+
     const inerMessage = await (inerChannel as TextChannel).messages.fetch(
       serverInfo.channels.reactRoleChannel.channelId
     );
