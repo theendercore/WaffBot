@@ -22,7 +22,7 @@ export default {
       leaveC = "t",
       verification = false,
       reactRoles = false,
-      setupFile = null;
+      setupFile: any = null;
 
     try {
       setupFile = require("../data/setup.json");

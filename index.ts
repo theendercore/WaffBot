@@ -34,16 +34,19 @@ client.on("ready", async () => {
 
   //Cache all the react chats
   let servers = await ServerSettingsModel.find();
-  // servers.forEach(async (si: any) => {
-  //   let serverInfo = si.reactRoles;
-  //   const inerGuild = await client.guilds.fetch(serverInfo._id);
-  //   const inerChannel = inerGuild.channels.cache.get(
-  //     serverInfo.reactRoleChannel.id
-  //   );
-  //   const inerMessage = await (inerChannel as TextChannel).messages.fetch(
-  //     serverInfo.reactRoleChannel.channelId
-  //   );
-  // });
+  servers.forEach(async (serverInfo: any) => {
+    if (!serverInfo.reactRoles.useReactRoles) {
+      log("No RRR")
+      return;
+    }
+    const inerGuild = await client.guilds.fetch(serverInfo._id);
+    const inerChannel = inerGuild.channels.cache.get(
+      serverInfo.channels.reactRoleChannel.id
+    );
+    const inerMessage = await (inerChannel as TextChannel).messages.fetch(
+      serverInfo.channels.reactRoleChannel.channelId
+    );
+  });
 
   let dbRolesO = await ReactRolesModel.find();
   dbRolesO.forEach(async (serverInfo) => {

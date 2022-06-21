@@ -33,7 +33,7 @@ export default {
       return "";
     }
 
-    let react_roles = null;
+    let react_roles: any = null;
     //-------------------Crete New Things-------------------
     if ((await ReactRolesModel.findById(guild.id)) == null) {
       log("New Discord server connected | id-" + guild.id);
@@ -130,7 +130,7 @@ export default {
     }
 
     //-------------------Set up Roles Channel------------------
-    let EMOJIS = [];
+    let EMOJIS: any = [];
     let categorys: any = [];
     let sentEmbed = " ";
     const sendEmbed = [
@@ -188,7 +188,7 @@ export default {
 
     try {
       await rrcMSG.edit({ embeds: sendEmbed });
-      await EMOJIS.forEach((emoji) => rrcMSG.react(emoji));
+      await EMOJIS.forEach((emoji: any) => rrcMSG.react(emoji));
     } catch {
       sendDeleteMSG(message, channel, "Oh no");
       return "";

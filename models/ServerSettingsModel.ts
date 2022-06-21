@@ -6,6 +6,10 @@ const schema = new mongoose.Schema({
   channels: {
     joinChannel: requiredString,
     leaveChannel: requiredString,
+    reactRoleChannel: {
+      id: String,
+      messageId: String,
+    },
     logChannel: String,
   },
   verification: {
@@ -15,10 +19,6 @@ const schema = new mongoose.Schema({
   },
   reactRoles: {
     useReactRoles: requiredboolean,
-    reactRoleChannel: {
-      id: String,
-      messageId: String,
-    },
     roleList: [
       {
         id: String,

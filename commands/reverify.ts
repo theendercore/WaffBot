@@ -22,7 +22,10 @@ export default {
       return "";
     }
 
-    if (message?.member?.roles?.cache.get(varifyRole) && (await VerifyModel.findById(message.member.id)).verified) {
+    if (
+      message?.member?.roles?.cache.get(varifyRole) &&
+      (await VerifyModel.findById(message.member.id)).verified
+    ) {
       sendDeleteMSG(message, channel, "You already are verified!");
       return;
     }
