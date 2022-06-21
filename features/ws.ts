@@ -7,21 +7,25 @@ export default async (client: Client) => {
   const wss = new WebSocket.Server({ port: 8080 });
 
   wss.on("connection", (ws) => {
-    log("Connected Client");
+    log("Verify Server Connected");
     ws.on("message", async (d) => {
       let data = JSON.parse(d.toString());
-      if (data == null || data.server === undefined) {
-        log("Packet Error");
+      if (
+        data == null ||
+        data.server === undefined ||
+        data.user === undefined
+      ) {
+        log("Packet Error!");
       }
 
       var guild = client.guilds.cache.get(data.server);
       const member = await guild?.members.fetch(data.user);
-      log("A member has verified id: " + member?.user.tag);
+      // log("A member has verified id: " + member?.user.tag);
       member?.roles.remove(waitingVarifyRole);
       member?.roles.add(varifyRole);
     });
     ws.on("close", (ws) => {
-      log("Disconected");
+      log("Verify Server Disconected");
     });
   });
 };
