@@ -1,8 +1,8 @@
 import { TextChannel, GuildMember } from "discord.js";
 import { ICommand } from "wokcommands";
 import { sendDeleteMSG } from "../common/log";
-import { use_rr, varifyRole, welcomeChannel } from "../common/vars";
-import { getVerify } from "../common/getVerify";
+import { varifyRole, welcomeChannel, getIfUseVerification } from "../common/vars";
+import { attemptVerify } from "../common/attemptVerify";
 import VerifyModel from "../models/VerifyModel";
 
 export default {
@@ -17,8 +17,8 @@ export default {
       return "";
     }
 
-    if (use_rr) {
-      sendDeleteMSG(message, channel, "React Roles are not Enabled!");
+    if (await getIfUseVerification(guild.id)) {
+      sendDeleteMSG(message, channel, "Verification is not Enabled!");
       return "";
     }
 
@@ -39,7 +39,7 @@ export default {
       return "";
     }
 
-    getVerify(message?.member as GuildMember, guild, WelcomeChannel);
+    attemptVerify(message?.member as GuildMember, guild, WelcomeChannel);
     sendDeleteMSG(message, channel, "Done™️");
   },
 } as ICommand;

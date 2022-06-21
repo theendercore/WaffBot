@@ -1,13 +1,9 @@
 import { Client, TextChannel } from "discord.js";
-import WOKCommands from "wokcommands";
-import log from "../common/log";
-import "dotenv/config";
-import { welcomeChannel } from "../common/vars";
-import { getVerify } from "../common/getVerify";
+import { getIfUseVerification, welcomeChannel } from "../common/vars";
+import { attemptVerify } from "../common/attemptVerify";
 
 export default (client: Client) => {
   client.on("guildMemberAdd", async (member) => {
-    log(member.displayName + " joined!");
     const { guild } = member;
 
     const channel = guild.channels.cache.find(
@@ -26,7 +22,9 @@ export default (client: Client) => {
 
     channel.send({ embeds: [welcomeEmbed] });
 
-    getVerify(member, guild, channel);
+    if (await getIfUseVerification(guild.id)) {
+      attemptVerify(member, guild, channel);
+    }
   });
 };
 

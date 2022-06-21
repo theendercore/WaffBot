@@ -25,7 +25,6 @@ export default {
     try {
       setupFile = require("../data/setup.json");
     } catch {
-      log("Set Up file not Present!");
       sendDeleteMSG(message, channel, "Set Up file not Present!");
       return "";
     }
@@ -36,7 +35,6 @@ export default {
       setupFile.verification === null ||
       setupFile.reactRoles === null
     ) {
-      log("Setup File Incorect!");
       sendDeleteReply(message, channel, "Setup File Incorect or Empty!");
       return "";
     }
@@ -48,8 +46,7 @@ export default {
 
     //-------------------Crete New Server Settings-------------------
     if ((await ServerSettingsModel.findById(guild.id)) == null) {
-      log("New Discord server connected | id - " + guild.id);
-
+      log("New Discord server connected | Id - " + guild.id);
       await ServerSettingsModel.create({
         _id: guild.id,
         dataVersion: dataVersion,
@@ -61,7 +58,7 @@ export default {
     }
     //-------------------Update Server Settings-------------------
     if ((await ServerSettingsModel.findById(guild.id)) != null) {
-      log("Updated Discord server | id - " + guild.id);
+      log("Updated Discord server | Id - " + guild.id);
 
       await ServerSettingsModel.updateOne(
         { _id: guild.id },

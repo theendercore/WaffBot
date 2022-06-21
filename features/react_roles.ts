@@ -1,6 +1,4 @@
-import { Client, Message, TextChannel } from "discord.js";
-import WOKCommands from "wokcommands";
-import log from "../common/log";
+import { Client } from "discord.js";
 import ServerSettingsModel from "../models/ServerSettingsModel";
 
 export default async (client: Client) => {

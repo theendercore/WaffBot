@@ -1,4 +1,4 @@
-import { Client, Guild, Message, TextChannel } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 
 const logChannel = "973197471515811880";
 

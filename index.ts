@@ -1,10 +1,8 @@
 import DiscordJS, { Intents, TextChannel } from "discord.js";
 import WOKCommands from "wokcommands";
 import path from "path";
-import mongoose from "mongoose";
 import "dotenv/config";
-import log, { logWarn } from "./common/log";
-import { verify } from "./common/vars";
+import log from "./common/log";
 import ServerSettingsModel from "./models/ServerSettingsModel";
 
 const guildID = "968877307638997032";

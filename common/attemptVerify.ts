@@ -3,9 +3,8 @@ import { varifyRole, waitingVarifyRole } from "./vars";
 import { v4 as uuidv4 } from "uuid";
 import VerifyModel from "../models/VerifyModel";
 import TempPasswordModel from "../models/TempPasswordModel";
-import log from "./log";
 
-export async function getVerify(
+export async function attemptVerify(
   member: GuildMember,
   guild: Guild,
   channel: TextChannel
@@ -43,7 +42,12 @@ export async function getVerify(
   await member.send(`**you have been virifed ! :)**`);
 }
 
-async function tryDM(member: GuildMember, guild: Guild, pas: string, channel: TextChannel) {
+async function tryDM(
+  member: GuildMember,
+  guild: Guild,
+  pas: string,
+  channel: TextChannel
+) {
   try {
     await member.send(
       `> **Welcome to ${guild}**` +
@@ -51,7 +55,6 @@ async function tryDM(member: GuildMember, guild: Guild, pas: string, channel: Te
         `\nUse \`/verify ${pas}\` in the server \`${process.env.SERVER_IP}\``
     );
   } catch (e) {
-    log(`${member.displayName} does not have DM's open`);
     channel.send(
       "Hey <@" +
         member.id +

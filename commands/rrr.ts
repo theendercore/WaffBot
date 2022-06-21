@@ -3,7 +3,7 @@ import { ICommand } from "wokcommands";
 import log, { logCantDel, sendDeleteMSG, sendDeleteReply } from "../common/log";
 import fs from "fs";
 import path from "path";
-import { use_rr } from "../common/vars";
+import { getIfUseRR } from "../common/vars";
 import ServerSettingsModel from "../models/ServerSettingsModel";
 
 /*
@@ -28,7 +28,7 @@ export default {
       return "";
     }
 
-    if (use_rr) {
+    if (await getIfUseRR(guild.id)) {
       sendDeleteMSG(message, channel, "React Roles are not Enabled!");
       return "";
     }
