@@ -3,6 +3,7 @@ import { requiredboolean, requiredString } from "./const";
 
 const schema = new mongoose.Schema({
   _id: requiredString,
+  dataVersion:requiredString,
   channels: {
     joinChannel: requiredString,
     leaveChannel: requiredString,

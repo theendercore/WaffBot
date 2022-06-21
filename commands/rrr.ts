@@ -125,21 +125,14 @@ export default {
       }
       sendDeleteReply(message, channel, "Processed Roles");
       //-------------------Deleting the roles.json------------------
-      /*
-              AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-              AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-              AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-              AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-              AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-      */
 
-      // fs.unlink("data/roles.json", (err) => {
-      //   if (err) {
-      //     log(err + "");
-      //   } else {
-      //     log("Old roles File deleted");
-      //   }
-      // });
+      fs.unlink("data/roles.json", (err) => {
+        if (err) {
+          log(err + "");
+        } else {
+          log("Old roles File deleted");
+        }
+      });
     }
 
     //-------------------Set up Roles Channel------------------

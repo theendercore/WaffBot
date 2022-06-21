@@ -1,8 +1,6 @@
-import { TextChannel, GuildMember } from "discord.js";
 import { ICommand } from "wokcommands";
 import log, { sendDeleteMSG, sendDeleteReply } from "../common/log";
-import { varifyRole, welcomeChannel } from "../common/vars";
-import { getVerify } from "../common/getVerify";
+import { dataVersion } from "../common/vars";
 import ServerSettingsModel from "../models/ServerSettingsModel";
 
 export default {
@@ -48,21 +46,37 @@ export default {
     verification = setupFile.verification;
     reactRoles = setupFile.reactRoles;
 
-    log(joinC + " | " + leaveC + " | " + verification + " | " + reactRoles);
-
     //-------------------Crete New Server Settings-------------------
     if ((await ServerSettingsModel.findById(guild.id)) == null) {
       log("New Discord server connected | id - " + guild.id);
 
       await ServerSettingsModel.create({
         _id: guild.id,
+        dataVersion: dataVersion,
         "channels.joinChannel": joinC,
         "channels.leaveChannel": leaveC,
         "verification.useVerification": verification,
         "reactRoles.useReactRoles": reactRoles,
       });
     }
+    //-------------------Update Server Settings-------------------
+    if ((await ServerSettingsModel.findById(guild.id)) != null) {
+      log("Updated Discord server | id - " + guild.id);
 
+      await ServerSettingsModel.updateOne(
+        { _id: guild.id },
+        {
+          $set: {
+            "verification.useVerification": verification,
+            "reactRoles.useReactRoles": reactRoles,
+            channels: {
+              joinChannel: joinC,
+              leaveChannel: leaveC,
+            },
+          },
+        }
+      );
+    }
     sendDeleteMSG(message, channel, "Done™️");
   },
 } as ICommand;

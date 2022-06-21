@@ -4,7 +4,6 @@ import path from "path";
 import mongoose from "mongoose";
 import "dotenv/config";
 import log, { logWarn } from "./common/log";
-import ReactRolesModel from "./models/ReactRolesModel";
 import { verify } from "./common/vars";
 import ServerSettingsModel from "./models/ServerSettingsModel";
 
