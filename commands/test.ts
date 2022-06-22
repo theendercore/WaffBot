@@ -1,5 +1,5 @@
 import { ICommand } from "wokcommands";
-import log, { sendDeleteMSG, sendDeleteReply } from "../common/log";
+import log, { sendDeleteReply } from "../common/log";
 import { getIfUseVerification, getWelcomeChannel } from "../common/vars";
 
 export default {

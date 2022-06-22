@@ -1,7 +1,7 @@
 import { TextChannel, GuildMember } from "discord.js";
 import { ICommand } from "wokcommands";
 import { sendDeleteMSG } from "../common/log";
-import { varifyRole, welcomeChannel, getIfUseVerification } from "../common/vars";
+import { varifyRole, getIfUseVerification, getWelcomeChannel } from "../common/vars";
 import { attemptVerify } from "../common/attemptVerify";
 import VerifyModel from "../models/VerifyModel";
 
@@ -29,9 +29,9 @@ export default {
       sendDeleteMSG(message, channel, "You already are verified!");
       return;
     }
-
+    let joinChannel = await getWelcomeChannel(guild.id)
     const WelcomeChannel = guild.channels.cache.find(
-      (WelcomeChannel) => WelcomeChannel.id === welcomeChannel
+      (WelcomeChannel) => WelcomeChannel.id === joinChannel
     ) as TextChannel;
 
     if (!WelcomeChannel) {

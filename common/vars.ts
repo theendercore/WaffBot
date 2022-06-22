@@ -14,7 +14,7 @@ export async function getIfUseVerification(gId:any){
       )).verification.useVerification
 }
 
-// export let varifyRole = '974650288780763166'
+export let varifyRole = '974650288780763166'
 
 export async function getVerifyRole(gId:any){
     return (await ServerSettingsModel.findOne(
@@ -22,7 +22,7 @@ export async function getVerifyRole(gId:any){
         { _id: 0, "verification": 1 }
       )).verification
 }
-// export let waitingVarifyRole = '974622107843559444'
+export let waitingVarifyRole = '974622107843559444'
 
 export async function getAwatingVerifyRole(gId:any){
     return (await ServerSettingsModel.findOne(
@@ -30,7 +30,6 @@ export async function getAwatingVerifyRole(gId:any){
         { _id: 0, "verification": 1 }
       )).verification
 }
-// export let welcomeChannel = '969277045404229652'
 
 export async function getWelcomeChannel(gId:any){
     return (await ServerSettingsModel.findOne(

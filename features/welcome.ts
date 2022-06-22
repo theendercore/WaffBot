@@ -1,11 +1,11 @@
 import { Client, TextChannel } from "discord.js";
-import { getIfUseVerification, welcomeChannel } from "../common/vars";
+import { getIfUseVerification, getWelcomeChannel } from "../common/vars";
 import { attemptVerify } from "../common/attemptVerify";
 
 export default (client: Client) => {
   client.on("guildMemberAdd", async (member) => {
     const { guild } = member;
-
+    let welcomeChannel = await getWelcomeChannel(guild.id);
     const channel = guild.channels.cache.find(
       (channel) => channel.id === welcomeChannel
     ) as TextChannel;
