@@ -1,6 +1,8 @@
 {
     "joinChannel": "969277045404229652",
     "leaveChannel": "969277045404229652",
-    "verification": false,
+    "verification": true,
+    "verifyR":"974650288780763166",
+    "awaitingVerifyR":"974622107843559444",
     "reactRoles": true
 }

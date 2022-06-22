@@ -1,8 +1,7 @@
 import { TextChannel, MessageEmbed } from "discord.js";
 import { ICommand } from "wokcommands";
-import log, { logCantDel, sendDeleteMSG, sendDeleteReply } from "../common/log";
+import log, { sendDeleteMSG, sendDeleteReply } from "../common/log";
 import fs from "fs";
-import path from "path";
 import { getIfUseRR } from "../common/vars";
 import ServerSettingsModel from "../models/ServerSettingsModel";
 
@@ -28,7 +27,7 @@ export default {
       return "";
     }
 
-    if (await getIfUseRR(guild.id)) {
+    if (!await getIfUseRR(guild.id)) {
       sendDeleteMSG(message, channel, "React Roles are not Enabled!");
       return "";
     }
@@ -99,6 +98,7 @@ export default {
             for (let j = 0; j < Object.keys(currentRoles).length; j++) {
               if (currentRoles[j].id == react_roles[i].id) {
                 roleExists = true;
+                log("Identical Role found")
                 //Identical Role found
                 break;
               }

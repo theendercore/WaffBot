@@ -22,7 +22,7 @@ export default (client: Client) => {
 
     channel.send({ embeds: [welcomeEmbed] });
 
-    if (await getIfUseVerification(guild.id)) {
+    if (!await getIfUseVerification(guild.id)) {
       attemptVerify(member, guild, channel);
     }
   });

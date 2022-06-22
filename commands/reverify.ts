@@ -1,7 +1,7 @@
 import { TextChannel, GuildMember } from "discord.js";
 import { ICommand } from "wokcommands";
 import { sendDeleteMSG } from "../common/log";
-import { varifyRole, getIfUseVerification, getWelcomeChannel } from "../common/vars";
+import { getIfUseVerification, getWelcomeChannel, getVerifyRole } from "../common/vars";
 import { attemptVerify } from "../common/attemptVerify";
 import VerifyModel from "../models/VerifyModel";
 
@@ -17,13 +17,13 @@ export default {
       return "";
     }
 
-    if (await getIfUseVerification(guild.id)) {
+    if (!await getIfUseVerification(guild.id)) {
       sendDeleteMSG(message, channel, "Verification is not Enabled!");
       return "";
     }
 
     if (
-      message?.member?.roles?.cache.get(varifyRole) &&
+      message?.member?.roles?.cache.get(await getVerifyRole(guild.id)) &&
       (await VerifyModel.findById(message.member.id)).verified
     ) {
       sendDeleteMSG(message, channel, "You already are verified!");

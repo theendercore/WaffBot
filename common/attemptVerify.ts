@@ -1,5 +1,5 @@
 import { Guild, GuildMember, TextChannel } from "discord.js";
-import { varifyRole, waitingVarifyRole } from "./vars";
+import {getAwatingVerifyRole, getVerifyRole } from "./vars";
 import { v4 as uuidv4 } from "uuid";
 import VerifyModel from "../models/VerifyModel";
 import TempPasswordModel from "../models/TempPasswordModel";
@@ -9,7 +9,7 @@ export async function attemptVerify(
   guild: Guild,
   channel: TextChannel
 ) {
-  member.roles.add(waitingVarifyRole);
+  member.roles.add(await getAwatingVerifyRole(guild.id));
   let dbMember = await VerifyModel.findById(member.id);
   if (dbMember == null) {
     await VerifyModel.create({
@@ -37,8 +37,8 @@ export async function attemptVerify(
     tryDM(member, guild, pas, channel);
     return;
   }
-  member.roles.remove(waitingVarifyRole);
-  member.roles.add(varifyRole);
+  member.roles.remove(await getAwatingVerifyRole(guild.id));
+  member.roles.add(await getVerifyRole(guild.id));
   await member.send(`**you have been virifed ! :)**`);
 }
 

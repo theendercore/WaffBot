@@ -16,7 +16,7 @@ const schema = new mongoose.Schema({
   verification: {
     useVerification: requiredboolean,
     verifyRole: String,
-    waitingVarifyRole: String,
+    awaitingVarifyRole: String,
   },
   reactRoles: {
     useReactRoles: requiredboolean,

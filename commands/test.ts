@@ -1,6 +1,6 @@
 import { ICommand } from "wokcommands";
-import log, { sendDeleteReply } from "../common/log";
-import { getIfUseVerification, getWelcomeChannel } from "../common/vars";
+import log, { sendDeleteMSG } from "../common/log";
+import { getAwatingVerifyRole, getVerifyRole } from "../common/vars";
 
 export default {
   category: "Admin",
@@ -10,8 +10,8 @@ export default {
 
   permissions: ["ADMINISTRATOR"],
   callback: async ({ message, channel, guild }) => {
-    log(await getIfUseVerification(guild?.id));
-    log(await getWelcomeChannel(guild?.id));
-    sendDeleteReply(message, channel, "pp");
+    log(await getVerifyRole(guild?.id));
+    log(await getAwatingVerifyRole(guild?.id));
+    sendDeleteMSG(message, channel, "pp");
   },
 } as ICommand;

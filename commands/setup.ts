@@ -16,11 +16,13 @@ export default {
       return "";
     }
 
-    let joinC = "t",
-      leaveC = "t",
+    let joinC = "0",
+      leaveC = "0",
       verification = false,
       reactRoles = false,
-      setupFile: any = null;
+      setupFile: any = null,
+      verifyR = "0",
+      awaitingVerifyR = "0";
 
     try {
       setupFile = require("../data/setup.json");
@@ -39,14 +41,31 @@ export default {
       return "";
     }
 
+    if (
+      setupFile.verification === true &&
+      (setupFile.verifyR === null ||
+        setupFile.awaitingVerifyR === null ||
+        setupFile.verifyR === undefined ||
+        setupFile.awaitingVerifyR === undefined)
+    ) {
+      sendDeleteReply(
+        message,
+        channel,
+        "Veridication Setup Incorect or Empty!"
+      );
+      return "";
+    }
+
     joinC = setupFile.joinChannel;
     leaveC = setupFile.leaveChannel;
     verification = setupFile.verification;
     reactRoles = setupFile.reactRoles;
+    verifyR = setupFile.verifyR;
+    awaitingVerifyR = setupFile.awaitingVerifyR;
 
     //-------------------Crete New Server Settings-------------------
     if ((await ServerSettingsModel.findById(guild.id)) == null) {
-      log("New Discord server connected | Id - " + guild.id);
+      log("Connected Server : " + guild.id);
       await ServerSettingsModel.create({
         _id: guild.id,
         dataVersion: dataVersion,
@@ -58,7 +77,7 @@ export default {
     }
     //-------------------Update Server Settings-------------------
     if ((await ServerSettingsModel.findById(guild.id)) != null) {
-      log("Updated Discord server | Id - " + guild.id);
+      log("Updated Server : " + guild.id);
 
       await ServerSettingsModel.updateOne(
         { _id: guild.id },
@@ -66,10 +85,22 @@ export default {
           $set: {
             "verification.useVerification": verification,
             "reactRoles.useReactRoles": reactRoles,
-            channels: {
-              joinChannel: joinC,
-              leaveChannel: leaveC,
-            },
+            "channels.joinChannel": joinC,
+            "channels.leaveChannel": leaveC,
+          },
+        }
+      );
+    }
+
+    //-------------------Add Verification Roles-------------------
+    if (verification) {
+      log("verifi true");
+      await ServerSettingsModel.updateOne(
+        { _id: guild.id },
+        {
+          $set: {
+            "verification.verifyRole": verifyR,
+            "verification.awaitingVarifyRole": awaitingVerifyR,
           },
         }
       );
