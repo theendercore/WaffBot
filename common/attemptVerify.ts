@@ -39,7 +39,7 @@ export async function attemptVerify(
   }
   member.roles.remove(await getAwatingVerifyRole(guild.id));
   member.roles.add(await getVerifyRole(guild.id));
-  await member.send(`**you have been virifed ! :)**`);
+  await member.send(`**you have been verified ! :)**`);
 }
 
 async function tryDM(

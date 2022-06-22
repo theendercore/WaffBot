@@ -105,6 +105,8 @@ export default {
         }
       );
     }
+
+    
     sendDeleteMSG(message, channel, "Done™️");
   },
 } as ICommand;

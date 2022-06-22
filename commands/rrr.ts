@@ -27,7 +27,7 @@ export default {
       return "";
     }
 
-    if (!await getIfUseRR(guild.id)) {
+    if (!(await getIfUseRR(guild.id))) {
       sendDeleteMSG(message, channel, "React Roles are not Enabled!");
       return "";
     }
@@ -91,14 +91,13 @@ export default {
           let currentRoles = (
             await ServerSettingsModel.findOne(
               { _id: guild.id },
-              { _id: 0, "reactRoles.roleList.id": 1 }
+              { _id: 0, reactRoles: 1 }
             )
-          ).roleList;
+          ).reactRoles.roleList;
           if (!(currentRoles == null)) {
             for (let j = 0; j < Object.keys(currentRoles).length; j++) {
               if (currentRoles[j].id == react_roles[i].id) {
                 roleExists = true;
-                log("Identical Role found")
                 //Identical Role found
                 break;
               }
@@ -124,15 +123,6 @@ export default {
         //Processed role
       }
       sendDeleteReply(message, channel, "Processed Roles");
-      //-------------------Deleting the roles.json------------------
-
-      fs.unlink("data/roles.json", (err) => {
-        if (err) {
-          log(err + "");
-        } else {
-          log("Old roles File deleted");
-        }
-      });
     }
 
     //-------------------Set up Roles Channel------------------
