@@ -29,4 +29,10 @@ export async function getWelcomeChannel(gId: any) {
     await ServerSettingsModel.findOne({ _id: gId }, { _id: 0, channels: 1 })
   ).channels.joinChannel;
 }
+
+export async function getLeaveChannel(gId: any) {
+  return (
+    await ServerSettingsModel.findOne({ _id: gId }, { _id: 0, channels: 1 })
+  ).channels.leaveChannel;
+}
 export let dataVersion = 1;
