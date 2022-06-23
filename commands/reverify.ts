@@ -1,7 +1,11 @@
 import { TextChannel, GuildMember } from "discord.js";
 import { ICommand } from "wokcommands";
 import { sendDeleteMSG } from "../common/log";
-import { getIfUseVerification, getWelcomeChannel, getVerifyRole } from "../common/vars";
+import {
+  getIfUseVerification,
+  getWelcomeChannel,
+  getVerifyRole,
+} from "../common/vars";
 import { attemptVerify } from "../common/attemptVerify";
 import VerifyModel from "../models/VerifyModel";
 
@@ -17,19 +21,21 @@ export default {
       return "";
     }
 
-    if (!await getIfUseVerification(guild.id)) {
+    if (!(await getIfUseVerification(guild.id))) {
       sendDeleteMSG(message, channel, "Verification is not Enabled!");
       return "";
     }
 
     if (
+      (await VerifyModel.findById(message?.member?.id)) != null &&
       message?.member?.roles?.cache.get(await getVerifyRole(guild.id)) &&
       (await VerifyModel.findById(message.member.id)).verified
     ) {
       sendDeleteMSG(message, channel, "You already are verified!");
       return;
     }
-    let joinChannel = await getWelcomeChannel(guild.id)
+
+    let joinChannel = await getWelcomeChannel(guild.id);
     const WelcomeChannel = guild.channels.cache.find(
       (WelcomeChannel) => WelcomeChannel.id === joinChannel
     ) as TextChannel;
