@@ -52,7 +52,7 @@ async function tryDM(
     await member.send(
       `> **Welcome to ${guild}**` +
         `\nTo get in give me ur Mincruft acount` +
-        `\nUse \`/verify ${pas}\` in the server \`${process.env.SERVER_IP}\``
+        `\nUse \`/werify ${pas}\` in the server \`${process.env.SERVER_IP}\``
     );
   } catch (e) {
     channel.send(
