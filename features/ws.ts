@@ -5,9 +5,10 @@ import { getAwatingVerifyRole, getVerifyRole } from "../common/vars";
 
 export default async (client: Client) => {
   const PORT = (Number)(process.env.POR) || 8080;
+  const pp = (Number)(process.env.POR)
   log(process.env.PORT);
   log(PORT)
-  const pp = (Number)(process.env.POR)
+  log(pp)
   const wss = new WebSocket.Server({ port: pp });
 
   wss.on("connection", (ws) => {
