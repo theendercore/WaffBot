@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/theendercore/WaffBot#readme",
   "dependencies": {
+    "typescript":"4.7.4",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
     "mongoose": "^6.3.1",
