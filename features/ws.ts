@@ -8,7 +8,9 @@ export default async (client: Client) => {
   log(process.env.POR)
   log(PORT)
   // @ts-ignore
-  const wss = new WebSocket.Server({ port: PORT });
+  const wss = new WebSocket.Server({ port: 8080 });
+
+  log(wss)
 
   wss.on("connection", (ws) => {
     log("Verify Server Connected");
