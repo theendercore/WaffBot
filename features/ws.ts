@@ -7,7 +7,7 @@ export default async (client: Client) => {
   const PORT = Number(process.env.POR) || 8080;
   // const pp = Number(process.env.POR)
   // log(process.env.PORT);
-  // log(PORT)
+  log(PORT)
   // log(pp)
   const wss = new WebSocket.Server({ port: PORT });
 
