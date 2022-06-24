@@ -4,9 +4,8 @@
   "description": "Bot make me :)",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.ts",
-    "build":"tsc",
-    "start": "node build/index.js"
+    "start": "nodemon index.ts",
+    "dev": "nodemon index.ts"
   },
   "repository": {
     "type": "git",
