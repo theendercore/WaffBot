@@ -4,6 +4,8 @@ import WebSocket from "ws";
 import { getAwatingVerifyRole, getVerifyRole } from "../common/vars";
 
 export default async (client: Client) => {
+  let port = process.env.PORT || 8080
+  log(process.env.PORT);
   const wss = new WebSocket.Server({ port: 8080 });
 
   wss.on("connection", (ws) => {
