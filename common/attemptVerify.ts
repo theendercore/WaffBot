@@ -1,5 +1,5 @@
 import { Guild, GuildMember, TextChannel } from "discord.js";
-import {getAwatingVerifyRole, getVerifyRole } from "./vars";
+import { getAwatingVerifyRole, getVerifyRole } from "./vars";
 import { v4 as uuidv4 } from "uuid";
 import VerifyModel from "../models/VerifyModel";
 import TempPasswordModel from "../models/TempPasswordModel";
@@ -52,7 +52,8 @@ async function tryDM(
     await member.send(
       `> **Welcome to ${guild}**` +
         `\nTo get in give me ur Mincruft acount` +
-        `\nUse \`/werify ${pas}\` in the server \`${process.env.SERVER_IP}\``
+        `\nUse:\`\`\`/werify ${pas}\`\`\`` +
+        `In the server:\`\`\`${process.env.MC_SERVER_IP}\`\`\``
     );
   } catch (e) {
     channel.send(
