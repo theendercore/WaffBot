@@ -16,15 +16,15 @@ export function logCantDel() {
 
 export function sendDeleteMSG(message: Message<boolean>, channel: TextChannel, text: string) {
   channel.send(text).then((sentMessage) => {
-    setTimeout(() => sentMessage.delete().catch(() => logCantDel()), 1000);
-    setTimeout(() => message.delete().catch(() => logCantDel()), 1000);
+    setTimeout(() => sentMessage.delete().catch(() => logCantDel()), 5000);
+    setTimeout(() => message.delete().catch(() => logCantDel()), 5000);
     return;
   });
 }
 
 export function sendDeleteReply(message: Message<boolean>, channel: TextChannel, text: string) {
   channel.send(text).then((sentMessage) => {
-    setTimeout(() => sentMessage.delete().catch(() => logCantDel()), 1000);
+    setTimeout(() => sentMessage.delete().catch(() => logCantDel()), 5000);
     return;
   });
 }
