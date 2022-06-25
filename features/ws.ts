@@ -5,11 +5,7 @@ import { getAwatingVerifyRole, getVerifyRole } from "../common/vars";
 
 export default async (client: Client) => {
   const PORT = 7784;
-  log(PORT)
   const wss = new WebSocket.Server({ port: PORT });
-
-  log("ep")
-
   wss.on("connection", (ws) => {
     log("Verify Server Connected");
     ws.on("message", async (d) => {
