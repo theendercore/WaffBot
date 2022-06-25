@@ -29,7 +29,4 @@ export function sendDeleteReply(message: Message<boolean>, channel: TextChannel,
   });
 }
 
-// export function logDiscord(s: string, m: object) {
-//     let channel = m.guild.channels.cache.get(logChannel)
-//     console.log('[WafBot] ' + s);
-// }
+//add dsicord logger

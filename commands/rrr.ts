@@ -1,7 +1,6 @@
 import { TextChannel, MessageEmbed } from "discord.js";
 import { ICommand } from "wokcommands";
 import log, { sendDeleteMSG, sendDeleteReply } from "../common/log";
-import fs from "fs";
 import { getIfUseRR } from "../common/vars";
 import ServerSettingsModel from "../models/ServerSettingsModel";
 
