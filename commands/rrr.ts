@@ -37,19 +37,15 @@ export default {
       (await ServerSettingsModel.findById(guild.id)).channels
         .reactRoleChannel == "{}"
     ) {
-      // log("move the code to here");
-      log("New Discord server connected | id-" + guild.id);
-      let rrcID = "0";
+       let rrcID = "0";
       let rrcMsgID = "0";
       const rrc = await guild.channels
         .create("react-roles", { reason: "Get ur roles here!" })
         .then(async (result) => {
-          log("A new React Roles Channel has been created | id-" + result.id);
           rrcID = result.id || "";
           await (result as TextChannel)
             .send({ content: "." })
             .then((message) => {
-              log("Temp Message send | id-" + message.id);
               rrcMsgID = message.id;
             });
         });
