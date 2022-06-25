@@ -27,6 +27,7 @@ export async function attemptVerify(
   }
   dbMember = dbMember.verifiedSerevrs;
   if (
+    dbMember.find((server: any) => server.serverID == member.guild.id).verified === undefined ||
     !dbMember.find((server: any) => server.serverID == member.guild.id).verified
   ) {
     let pas = uuidv4();
