@@ -10,8 +10,6 @@ export default {
 
   permissions: ["ADMINISTRATOR"],
   callback: async ({ message, channel, guild }) => {
-    log(await getVerifyRole(guild?.id));
-    log(await getAwatingVerifyRole(guild?.id));
     sendDeleteMSG(message, channel, "pp");
   },
 } as ICommand;
