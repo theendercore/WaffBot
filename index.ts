@@ -4,8 +4,9 @@ import path from "path";
 import "dotenv/config";
 import log from "./common/log";
 import ServerSettingsModel from "./models/ServerSettingsModel";
+import { officalVersion } from "./common/vars";
 
-const guildID = "968877307638997032";
+const guildID = process.env.T_GUILD;
 
 const client = new DiscordJS.Client({
   intents: [
@@ -19,7 +20,7 @@ const client = new DiscordJS.Client({
 });
 
 client.on("ready", async () => {
-  log(`Logged in as ` + client.user?.tag);
+  log(`Starting up ${client.user?.tag} - ${officalVersion}`);
 
   new WOKCommands(client, {
     commandsDir: path.join(__dirname, "commands"),
