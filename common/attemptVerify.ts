@@ -3,6 +3,7 @@ import { getAwatingVerifyRole, getVerifyRole } from "./vars";
 import { v4 as uuidv4 } from "uuid";
 import VerifyModel from "../models/VerifyModel";
 import TempPasswordModel from "../models/TempPasswordModel";
+import log from "./log";
 
 export async function attemptVerify(
   member: GuildMember,
@@ -25,9 +26,30 @@ export async function attemptVerify(
     tryDM(member, guild, pas, channel);
     return;
   }
+
   dbMember = dbMember.verifiedSerevrs;
+
+  if (dbMember.find((server: any) => server.serverID == member.guild.id) === undefined) {
+    await VerifyModel.updateOne(
+      {
+        _id: member.id,
+      },
+      {
+        $push: {
+          verifiedSerevrs: [{ serverID: member.guild.id, verified: false }],
+        },
+      }
+    );
+    let pas = uuidv4();
+    await TempPasswordModel.create({
+      serverID: member.guild.id,
+      userID: member.id,
+      password: pas,
+    });
+    tryDM(member, guild, pas, channel);
+    return;
+  }
   if (
-    dbMember.find((server: any) => server.serverID == member.guild.id).verified === undefined ||
     !dbMember.find((server: any) => server.serverID == member.guild.id).verified
   ) {
     let pas = uuidv4();
