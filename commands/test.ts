@@ -11,5 +11,6 @@ export default {
   permissions: ["ADMINISTRATOR"],
   callback: async ({ message, channel, guild }) => {
     sendDeleteMSG(message, channel, "pp");
+    log("test was run")
   },
 } as ICommand;

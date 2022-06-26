@@ -1,4 +1,6 @@
+import axios from "axios";
 import { Client } from "discord.js";
+import log from "../common/log";
 import ServerSettingsModel from "../models/ServerSettingsModel";
 
 export default async (client: Client) => {
@@ -54,8 +56,27 @@ async function code(
       const role = await guild?.roles.fetch(obj.id);
       if (remove) {
         member?.roles.remove(role || "");
+        if (reaction.emoji.name === "🔴") {
+          member?.setNickname(member.user.username);
+        }
       } else {
         member?.roles.add(role || "");
+        if (reaction.emoji.name === "🔴") {
+          console.log("the sacred one is " + member?.user.tag);
+
+          await fetch(
+            `https://api.mojang.com/users/profiles/minecraft/TheEnderCore`
+          ).then((data) => log(data.json()));
+          await axios
+            .get("https://api.mojang.com/users/profiles/minecraft/TheEnderCore")
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              // handle error
+              console.log(error);
+            })
+        }
       }
     }
   });

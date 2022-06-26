@@ -3,13 +3,13 @@ import { requiredString } from "./const";
 
 const schema = new mongoose.Schema({
   _id: requiredString,
-  minecraftUUID: String,
   verifiedSerevrs: [
     {
       serverID: requiredString,
       verified: {
         type: Boolean,
         required: true,
+        minecraftUUID: String,
       },
     },
   ],

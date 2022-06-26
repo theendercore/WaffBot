@@ -36,5 +36,5 @@ export async function getLeaveChannel(gId: any) {
   ).channels.leaveChannel;
 }
 export let dataVersion = 1;
-export let officalVersion = 1.1;
+export let officalVersion = 1.2;
 
