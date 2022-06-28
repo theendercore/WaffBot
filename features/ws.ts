@@ -23,6 +23,7 @@ export default async (client: Client) => {
       // log("A member has verified id: " + member?.user.tag);
       member?.roles.remove(await getAwatingVerifyRole(data.server));
       member?.roles.add(await getVerifyRole(data.server));
+      await member?.send(`**you have been verified ! :)**`);
     });
     ws.on("close", (ws) => {
       log("Verify Server Disconected");

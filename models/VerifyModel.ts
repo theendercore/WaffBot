@@ -6,10 +6,10 @@ const schema = new mongoose.Schema({
   verifiedSerevrs: [
     {
       serverID: requiredString,
+      minecraftUUID: String,
       verified: {
         type: Boolean,
         required: true,
-        minecraftUUID: String,
       },
     },
   ],

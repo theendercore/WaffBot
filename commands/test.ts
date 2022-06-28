@@ -3,14 +3,18 @@ import log, { sendDeleteMSG } from "../common/log";
 import { getAwatingVerifyRole, getVerifyRole } from "../common/vars";
 
 export default {
-  category: "Admin",
-  description: "Sets up the server for the bot",
+  category: "Test",
+  description: "yuss",
 
   slash: false,
 
-  permissions: ["ADMINISTRATOR"],
   callback: async ({ message, channel, guild }) => {
-    sendDeleteMSG(message, channel, "pp");
-    log("test was run")
+    const member = message.member;
+    if (guild?.ownerId !== message.author.id) {
+      await member?.setNickname(member.user.username);
+      log("test was run");
+      return "";
+    }
+    sendDeleteMSG(message, channel, "You are owner, to bad");
   },
 } as ICommand;

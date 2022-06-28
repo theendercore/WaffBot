@@ -2,6 +2,7 @@ import axios from "axios";
 import { Client } from "discord.js";
 import log from "../common/log";
 import ServerSettingsModel from "../models/ServerSettingsModel";
+import VerifyModel from "../models/VerifyModel";
 
 export default async (client: Client) => {
   let dbRoles: any, rrcInfo: any;
@@ -57,25 +58,38 @@ async function code(
       if (remove) {
         member?.roles.remove(role || "");
         if (reaction.emoji.name === "🔴") {
-          member?.setNickname(member.user.username);
+          if (guild?.ownerId !== reaction.author.id) {
+            await member?.setNickname(member.user.username);
+          }
+          log("remove problem?");
         }
       } else {
         member?.roles.add(role || "");
         if (reaction.emoji.name === "🔴") {
-          console.log("the sacred one is " + member?.user.tag);
-
-          await fetch(
-            `https://api.mojang.com/users/profiles/minecraft/TheEnderCore`
-          ).then((data) => log(data.json()));
-          await axios
-            .get("https://api.mojang.com/users/profiles/minecraft/TheEnderCore")
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              // handle error
-              console.log(error);
-            })
+          let userUUID: String = "0";
+          (
+            await VerifyModel.findOne(
+              { _id: member?.user.id },
+              { _id: 0, verifiedSerevrs: 1 }
+            )
+          ).verifiedSerevrs.forEach((s: any) => {
+            if (s.serverID === member?.guild.id) {
+              log(s.userUUID);
+              userUUID = s.userUUID;
+            }
+          });
+          if (guild?.ownerId !== reaction.author.id) {
+            await axios
+              .get(
+                `https://sessionserver.mojang.com/session/minecraft/profile/${userUUID}`
+              )
+              .then(async function (response) {
+                await member?.setNickname(response.data.name);
+              })
+              .catch(function (error) {
+                log(error);
+              });
+          }
         }
       }
     }
