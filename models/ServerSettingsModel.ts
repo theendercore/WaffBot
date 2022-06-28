@@ -3,7 +3,7 @@ import { requiredboolean, requiredString } from "./const";
 
 const schema = new mongoose.Schema({
   _id: requiredString,
-  dataVersion:requiredString,
+  dataVersion: requiredString,
   channels: {
     joinChannel: requiredString,
     leaveChannel: requiredString,
@@ -17,6 +17,7 @@ const schema = new mongoose.Schema({
     useVerification: requiredboolean,
     verifyRole: String,
     awaitingVarifyRole: String,
+    verifiedUUIDs: requiredString ,
   },
   reactRoles: {
     useReactRoles: requiredboolean,

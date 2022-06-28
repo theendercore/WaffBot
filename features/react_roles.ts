@@ -58,33 +58,33 @@ async function code(
       if (remove) {
         member?.roles.remove(role || "");
         if (reaction.emoji.name === "🔴") {
-          if (guild?.ownerId !== reaction.author.id) {
+          if (guild?.ownerId !== member?.id) {
             await member?.setNickname(member.user.username);
           }
-          log("remove problem?");
         }
       } else {
         member?.roles.add(role || "");
         if (reaction.emoji.name === "🔴") {
           let userUUID: String = "0";
-          (
+          let verServers = (
             await VerifyModel.findOne(
-              { _id: member?.user.id },
+              { _id: member?.id },
               { _id: 0, verifiedSerevrs: 1 }
             )
-          ).verifiedSerevrs.forEach((s: any) => {
+          ).verifiedSerevrs;
+          verServers.forEach((s: any) => {
             if (s.serverID === member?.guild.id) {
-              log(s.userUUID);
-              userUUID = s.userUUID;
+              userUUID = s.minecraftUUID;
             }
           });
-          if (guild?.ownerId !== reaction.member.id) {
+          if (guild?.ownerId !== member?.id) {
             await axios
               .get(
                 `https://sessionserver.mojang.com/session/minecraft/profile/${userUUID}`
               )
               .then(async function (response) {
                 await member?.setNickname(response.data.name);
+                log(`Addded ${response.data.name} to whitelist.`)
               })
               .catch(function (error) {
                 log(error);

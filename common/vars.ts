@@ -35,6 +35,6 @@ export async function getLeaveChannel(gId: any) {
     await ServerSettingsModel.findOne({ _id: gId }, { _id: 0, channels: 1 })
   ).channels.leaveChannel;
 }
-export let dataVersion = 1;
+export let dataVersion = 2;
 export let officalVersion = 1.2;
 

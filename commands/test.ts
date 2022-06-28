@@ -1,6 +1,7 @@
 import { ICommand } from "wokcommands";
 import log, { sendDeleteMSG } from "../common/log";
 import { getAwatingVerifyRole, getVerifyRole } from "../common/vars";
+import ServerSettingsModel from "../models/ServerSettingsModel";
 
 export default {
   category: "Test",
@@ -10,11 +11,13 @@ export default {
 
   callback: async ({ message, channel, guild }) => {
     const member = message.member;
-    if (guild?.ownerId !== message.author.id) {
-      await member?.setNickname(member.user.username);
-      log("test was run");
-      return "";
-    }
-    sendDeleteMSG(message, channel, "You are owner, to bad");
+    await ServerSettingsModel.updateOne(
+      { _id: guild?.id },
+      { $push: { "verification.verifiedUUIDs": "cock" } }
+    );
+    await ServerSettingsModel.updateOne(
+      { _id: guild?.id },
+      { $push: { "verification.verifiedUUIDs": "pp" } }
+    );
   },
 } as ICommand;
