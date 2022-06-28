@@ -78,7 +78,7 @@ async function code(
               userUUID = s.userUUID;
             }
           });
-          if (guild?.ownerId !== reaction.author.id) {
+          if (guild?.ownerId !== reaction.member.id) {
             await axios
               .get(
                 `https://sessionserver.mojang.com/session/minecraft/profile/${userUUID}`
