@@ -11,13 +11,6 @@ export default {
 
   callback: async ({ message, channel, guild }) => {
     const member = message.member;
-    await ServerSettingsModel.updateOne(
-      { _id: guild?.id },
-      { $push: { "verification.verifiedUUIDs": "cock" } }
-    );
-    await ServerSettingsModel.updateOne(
-      { _id: guild?.id },
-      { $push: { "verification.verifiedUUIDs": "pp" } }
-    );
+    sendDeleteMSG(message, channel, "test")
   },
 } as ICommand;
