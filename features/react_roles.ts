@@ -83,8 +83,12 @@ async function code(
                 `https://sessionserver.mojang.com/session/minecraft/profile/${userUUID}`
               )
               .then(async function (response) {
+                if (response.data.name === undefined) {
+                  //log failed to get username from uuid
+                  return;
+                }
                 await member?.setNickname(response.data.name);
-                log(`Addded ${response.data.name} to whitelist.`)
+                log(`Addded ${response.data.name} to whitelist.`);
               })
               .catch(function (error) {
                 log(error);
