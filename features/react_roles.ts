@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Client } from "discord.js";
-import log from "../common/log";
+import log, { sendDeleteReply } from "../common/log";
 import ServerSettingsModel from "../models/ServerSettingsModel";
 import VerifyModel from "../models/VerifyModel";
 
@@ -85,6 +85,8 @@ async function code(
               .then(async function (response) {
                 if (response.data.name === undefined) {
                   //log failed to get username from uuid
+                  await member?.send(`There Seams to be an issue wiht gettting your username from mojang server.
+                   Plaese DM @WafflesAreBetter#6519 or @Ender#8344 for help`);
                   return;
                 }
                 await member?.setNickname(response.data.name);
